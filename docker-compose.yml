@@ -1,0 +1,15 @@
+eureka:
+  build: mrlocksmith-server-eureka
+  ports:
+  - "8761:8761"
+zuul:
+  build: mrlocksmith-server-zuul
+  links:
+  - eureka
+  ports:
+  - "8080:8080"
+index:
+  build: mrlocksmith-index
+  links:
+  - eureka
+    
