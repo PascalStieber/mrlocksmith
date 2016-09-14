@@ -10,6 +10,14 @@ register:
   build: mrlocksmith-register
   links:
   - eureka
+order:
+  build: mrlocksmith-order
+  links:
+  - eureka
+quotation:
+  build: mrlocksmith-quotation
+  links:
+  - eureka  
 zuul:
   build: mrlocksmith-server-zuul
   links:

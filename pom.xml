@@ -18,6 +18,8 @@
 		<module>mrlocksmith-server-eureka</module>
 		<module>mrlocksmith-server-zuul</module>
 		<module>mrlocksmith-server-turbine</module>
+		<module>mrlocksmith-order</module>
+		<module>mrlocksmith-quotation</module>
 	</modules>
 
 	<properties>
