@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Layout</title>
@@ -16,6 +17,6 @@
 
 <body>
 		<h1>Layout</h1>
-		<div>Fake content. not signed in</div>
+		<div layout:fragment="content">not signed in</div>
 </body>
 </html>

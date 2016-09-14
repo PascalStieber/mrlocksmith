@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="layout">
+<head>
+<title>Mr. Locksmith - Das Vergleichsportal für Schlüsseldienstleistungen</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous" />
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous" />
+</head>
+<body>
+	<div layout:fragment="content">
+		<form th:action="${contractor.id!=0} ? ${contractor.id}+'.html' : 'formContractor.html' " th:object="${contractor}" th:method="${contractor.id != 0} ? put : post" role="form">
+			<div class="jumbotron" style="background: #D0F5A9 !important">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="panel-group">
+							<div class="panel panel-default">
+								<div class="panel-heading">Zu Ihrer Person:</div>
+								<div class="panel-body">
+									<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+										<li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+									</ul>
+
+									<div class="form-group">
+										<label for="vorname">Vorname:</label> <input type="text" th:field="*{firstname}" class="form-control" id="vorname" /> <label for="nachname">Nachname:</label> <input type="text"
+											th:field="*{surname}" class="form-control" id="nachname" />
+									</div>
+									<div class="form-group">
+										<label for="email">Email:</label> <input type="text" th:field="*{email}" class="form-control" id="email" /> <label for="telefonnummer">Telefonnr.:</label> <input type="text"
+											th:field="*{phonenumber}" class="form-control" id="telefonnummer" /> <label for="password">Passwort:</label> <input type="password" th:field="*{password}" class="form-control"
+											id="password" />
+									</div>
+								</div>
+							</div>
+							<!-- 							<div class="panel panel-default"> -->
+							<!-- 								<div class="panel-heading">Ihre Adresse:</div> -->
+							<!-- 								<div class="panel-body"> -->
+							<!-- 									<div class="form-group"> -->
+							<!-- 										<div class="row"> -->
+							<!-- 											<div class="col-md-9"> -->
+							<!-- 												<label for="strasse">Strasse:</label> <input type="text" th:field="*{street}" class="form-control" id="strasse" /> -->
+							<!-- 											</div> -->
+							<!-- 											<div class="col-md-3"> -->
+							<!-- 												<label for="hausnummer">Hausnr.:</label> <input type="text" th:field="*{streetnumber}" class="form-control" id="hausnummer" /> -->
+							<!-- 											</div> -->
+							<!-- 										</div> -->
+							<!-- 										<div class="row"> -->
+							<!-- 											<div class="col-md-4"> -->
+							<!-- 												<label for="plz">Plz.:</label> <input type="text" th:field="*{postcode}" class="form-control" id="plz" /> -->
+							<!-- 											</div> -->
+							<!-- 											<div class="col-md-8"> -->
+							<!-- 												<label for="ort">Ort:</label> <input type="text" th:field="*{country}" class="form-control" id="ort" /> -->
+							<!-- 											</div> -->
+							<!-- 										</div> -->
+							<!-- 									</div> -->
+							<!-- 								</div> -->
+							<!-- 							</div> -->
+						</div>
+					</div>
+					<!-- 					<div class="col-md-6"> -->
+					<!-- 						<div class="panel panel-default"> -->
+					<!-- 							<div class="panel-heading">Angaben zum Unternehmen:</div> -->
+					<!-- 							<div class="panel-body"> -->
+					<!-- 								<div class="form-group"> -->
+					<!-- 									<label for="companyname">Firmenname:</label> <input type="text" th:field="*{companyname}" class="form-control" id="companyname" /> <label for="holderfirstname">Vorname d. -->
+					<!-- 										Geschäftsführung:</label> <input type="text" th:field="*{holderfirstname}" class="form-control" id="holderfirstname" /> <label for="holdersurname">Nachname d. Geschäftsführung:</label> <input -->
+					<!-- 										type="text" th:field="*{holdersurname}" class="form-control" id="holdersurname" /> -->
+					<!-- 								</div> -->
+					<!-- 							</div> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+				</div>
+				<input type="submit" class="btn btn-success" value="Anmelden!" />
+			</div>
+		</form>
+	</div>
+</body>
+</html>

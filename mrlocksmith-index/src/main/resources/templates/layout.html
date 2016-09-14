@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+<title>Mr. Locksmith - Das Vergleichsportal für Schlüsseldienstleistungen</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous" />
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous" />
+</head>
+<body>
+
+
+	<div class="container" style="width: 80%;">
+		<form>
+			<!-- Header -->
+			<div class="row page-header">
+				<div class="col-md-4">
+					<img src="img/mrlocksmith_logo.jpg" class="" alt="locksmith_logo" />
+				</div>
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<p class="text-center">
+						<span class="glyphicon glyphicon-thumbs-up"></span> <a href="#">Ratgeber</a> | <span class="glyphicon glyphicon-comment"></span> <a href="#">Kontakt</a> | <span
+							class="glyphicon glyphicon-log-in"></span> <a href="#">Mein Zugang</a> | <span class="glyphicon glyphicon-user"></span> <a href="/register/">Registrierung</a>					
+					</p>
+					<br />
+					<p class="text-center">Sie sind angemeldet als: #{statisticBean.getLoggedInUsername()}</p>
+				</div>
+			</div>
+		</form>
+		<div id="content">
+			<div th:replace="header :: header">Content</div>
+		</div>
+
+		<hr />
+		<!-- Teaser -->
+		<div class="row well">
+			<h1>Ihre Vorteile im Überblick</h1>
+			<div class="col-md-4">
+				<img class="img-circle img-responsive" src="img/icons/hand.png" alt="Generic placeholder image" style="background-color: gray; text-align: center; padding: 2px;" />
+
+				<h2>Preistransparenz</h2>
+				<p>Alle Angebote werden anhand Ihrer Angaben exklusiv für Sie erstellt. Sie können zwischen diversen Schlüsseldienstleistern auswählen. Darüber hinaus empfehlen wir Ihnen den für Sie besten
+					und preisgünstigsten Dienstleister.</p>
+				<p>
+					<a class="btn btn-default" href="#">Mehr erfahren &raquo;</a>
+				</p>
+			</div>
+			<div class="col-md-4">
+				<img class="img-circle img-responsive" src="img/icons/man.png" alt="Generic placeholder image" style="background-color: gray; text-align: center; padding: 2px;" />
+				<h2>Express Service</h2>
+				<p>
+					Sie sind in Eile? Wählen Sie einen Express Service. Der Express Service kann u.U. weitere Kosten verursachen. Mehr dazu in unserem <a href="#">Ratgeber</a>.
+				</p>
+			</div>
+			<div class="col-md-4">
+				<img class="img-circle img-responsive" src="img/icons/shapes.png" alt="Generic placeholder image" style="background-color: gray; text-align: center; padding: 1px;" />
+				<h2>Support</h2>
+				<p>Sie haben die Möglichkeit den erbrachten Service zu bewerten. Schnell und unkompliziert. Sollten Sie widererwartend nicht zufrieden mit der Leistung sein, werden wir uns für Sie mit dem
+					Dienstleister in Verbindung setzen.</p>
+			</div>
+
+		</div>
+
+		<!-- Website Benchmarks -->
+		<div class="row">
+			<div class="col-md-6">
+
+				<div class="card">
+					<img class="card-img-top" src="img/icons/commerce.png" alt="stars" />
+					<div class="card-block">
+						<h4 class="card-title">Kundenbewertung</h4>
+						<p class="card-text">Roland schrieb: "Bin froh den Vergleich gemacht zu haben. Der Schlüsseldienst um die Ecke wollte fast 80€ mehr haben."</p>
+						<span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span>
+						<p class="card-text">Andreas schrieb: "Super, bares Geld gespart!"</p>
+						<span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span>
+						<p class="card-text">Regina schrieb: "Klasse Service! Und so einfach."</p>
+						<span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="card">
+					<img class="card-img-top" src="img/icons/graphic.png" alt="stars" />
+					<div class="card-block">
+						<h4 class="card-title">Statistik</h4>
+						<p class="card-text">
+							letztes Angebot vermittelt: <span class="badge">#{statisticBean.getLastAcceptedContract()}</span>
+						</p>
+						<p class="card-text">
+							Anfragen insgesamt: <span class="badge">#{statisticBean.getOrderAmount()}</span>
+						</p>
+						<p class="card-text">
+							vermittelte Angebote: <span class="badge">#{statisticBean.getAmountAcceptedOffers()}</span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<hr />
+		<!-- SEO Keywords -->
+		<div class="row">
+			<div class="col-md-12">
+				<p class="text-muted">Schlüsseldienst | Vergleich | Angebot | Türe | öffen | Schlüsseldienst günstiger | Schlüsseldienst billiger | Schlüsseldienst Vergleich | Türe öffnen | Sicherheitsdienst
+					| Sicherheitstechnik | Schlüssel verloren | Schlüssel | Schlüsseltechnik | Schlüssel nachmachen</p>
+			</div>
+		</div>
+		<hr />
+		<!-- Footer -->
+		<div class="row">
+			<div class="col-md-4">
+				<h4>unsere Partner:</h4>
+				<ul>
+					<li>Polizei Essen<a href="http://www.polizei.de"><span class="glyphicon glyphicon-exclamation-sign"></span></a></li>
+					<li>billiger.de</li>
+					<li>amazon.de</li>
+				</ul>
+			</div>
+			<div class="col-md-4">
+				<h4>
+					<span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span>unsere Top 10 Dienstleister:
+				</h4>
+				<ul>
+					<li>Schlüsseldienst Essen P. Albrecht</li>
+					<li>Tanriverdi</li>
+					<li>Sicherheitstechnik / Schlüsseldienst / gepr. Sachverständiger</li>
+				</ul>
+			</div>
+			<div class="col-md-4">
+				<h4>Impressum:</h4>
+				<address>
+					<strong>DiConDev</strong> <br /> Sabinastr. 7<br /> 45136 Essen<br /> <abbr title="Telefonnummer"><span class="glyphicon glyphicon-phone"></span></abbr> 0201 / 123 456 789 <br /> <abbr
+						title="E-Mail Adresse"><span class="glyphicon glyphicon-envelope"></span></abbr> pascal.stieber@dicondev.de <br />
+				</address>
+			</div>
+		</div>
+	</div>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>

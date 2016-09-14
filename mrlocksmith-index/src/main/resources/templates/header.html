@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+<title>Mr. Locksmith - Das Vergleichsportal für Schlüsseldienstleistungen</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous" />
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous" />
+</head>
+<body>
+	<div th:fragment="header">
+		<form>
+			<div class="jumbotron" style="background: #D0F5A9 !important">
+				<!-- 				Customers Questionnaire -->
+				<div class="row">
+					<h2>
+						Machen Sie den Vergleich und finden Sie den günstigsten Schlüsseldienst Anbieter. <small>Schnell, kostenlos, einfach...</small>
+					</h2>
+				</div>
+
+				<div class="row">
+					<div class="col-md-8">
+						<h3>Ihr persönliches Angebot ist nur ein paar klicks entfernt. Starten Sie jetzt!</h3>
+						<br /> <br /> <br />
+						<div style="text-align: center; align: center;">
+							<input type="submit" class="btn btn-primary btn-lg" value="Kostenloses Angebot erstellen" />
+						</div>
+					</div>
+					<div class="col-md-4">
+						<img class="img-circle img-responsive" src="img/keyman.jpg" alt="keyman" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

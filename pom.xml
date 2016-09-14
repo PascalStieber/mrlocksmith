@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.springframework.cloud</groupId>
 		<artifactId>spring-cloud-starter-parent</artifactId>
-		<version>Angel.SR3</version>
+		<version>Brixton.SR5</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -14,13 +14,15 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>mrlocksmith-index</module>
+		<module>mrlocksmith-register</module>
 		<module>mrlocksmith-server-eureka</module>
 		<module>mrlocksmith-server-zuul</module>
+		<module>mrlocksmith-server-turbine</module>
 	</modules>
 
 	<properties>
 		<java.version>1.8</java.version>
-		<spring-cloud.version>Angel.SR4</spring-cloud.version>
+		<spring-cloud.version>Brixton.SR5</spring-cloud.version>
 	</properties>
 
 	<build>

@@ -1,6 +1,5 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
 <head>
 <title>Mr. Locksmith - Das Vergleichsportal für Schlüsseldienstleistungen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -15,20 +14,17 @@
 <body>
 
 
-
 	<div class="container" style="width: 80%;">
 		<form>
-			<!-- Header -->
 			<div class="row page-header">
 				<div class="col-md-4">
-					<img src="../img/mrlocksmith_logo.jpg" class="" alt="locksmith_logo" />
+					<img src="img/mrlocksmith_logo.jpg" class="" alt="locksmith_logo" />
 				</div>
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
 					<p class="text-center">
 						<span class="glyphicon glyphicon-thumbs-up"></span> <a href="#">Ratgeber</a> | <span class="glyphicon glyphicon-comment"></span> <a href="#">Kontakt</a> | <span
-							class="glyphicon glyphicon-log-in"></span> <a href="#">Mein Zugang</a> | <span class="glyphicon glyphicon-user"></span>
-						<input type="submit" value="Registrierung"/>
+							class="glyphicon glyphicon-log-in"></span> <a href="#">Mein Zugang</a> | <span class="glyphicon glyphicon-user"></span> <input type="submit" value="Registrierung" />
 					</p>
 					<br />
 					<p class="text-center">Sie sind angemeldet als: #{statisticBean.getLoggedInUsername()}</p>
@@ -36,18 +32,15 @@
 			</div>
 		</form>
 		<div id="content">
-<!-- 			<ui:insert name="content"></ui:insert> -->
-<!-- 			<ui:insert name="login"></ui:insert> -->
-
+			<div layout:fragment="header">Fake content</div>
+			<div th:replace="header :: header">adsf23</div>
 		</div>
 
 		<hr />
-		<!-- Teaser -->
 		<div class="row well">
 			<h1>Ihre Vorteile im Überblick</h1>
 			<div class="col-md-4">
-				<img class="img-circle img-responsive" src="../img/icons/hand.png" alt="Generic placeholder image"
-					style="background-color: gray; text-align: center; padding: 2px;" />
+				<img class="img-circle img-responsive" src="img/icons/hand.png" alt="Generic placeholder image" style="background-color: gray; text-align: center; padding: 2px;" />
 
 				<h2>Preistransparenz</h2>
 				<p>Alle Angebote werden anhand Ihrer Angaben exklusiv für Sie erstellt. Sie können zwischen diversen Schlüsseldienstleistern auswählen. Darüber hinaus empfehlen wir Ihnen den für Sie besten
@@ -57,16 +50,14 @@
 				</p>
 			</div>
 			<div class="col-md-4">
-				<img class="img-circle img-responsive" src="../img/icons/man.png" alt="Generic placeholder image"
-					style="background-color: gray; text-align: center; padding: 2px;" />
+				<img class="img-circle img-responsive" src="img/icons/man.png" alt="Generic placeholder image" style="background-color: gray; text-align: center; padding: 2px;" />
 				<h2>Express Service</h2>
 				<p>
 					Sie sind in Eile? Wählen Sie einen Express Service. Der Express Service kann u.U. weitere Kosten verursachen. Mehr dazu in unserem <a href="#">Ratgeber</a>.
 				</p>
 			</div>
 			<div class="col-md-4">
-				<img class="img-circle img-responsive" src="../img/icons/shapes.png" alt="Generic placeholder image"
-					style="background-color: gray; text-align: center; padding: 1px;" />
+				<img class="img-circle img-responsive" src="img/icons/shapes.png" alt="Generic placeholder image" style="background-color: gray; text-align: center; padding: 1px;" />
 				<h2>Support</h2>
 				<p>Sie haben die Möglichkeit den erbrachten Service zu bewerten. Schnell und unkompliziert. Sollten Sie widererwartend nicht zufrieden mit der Leistung sein, werden wir uns für Sie mit dem
 					Dienstleister in Verbindung setzen.</p>
@@ -74,12 +65,11 @@
 
 		</div>
 
-		<!-- Website Benchmarks -->
 		<div class="row">
 			<div class="col-md-6">
 
 				<div class="card">
-					<img class="card-img-top" src="../img/icons/commerce.png" alt="stars" />
+					<img class="card-img-top" src="img/icons/commerce.png" alt="stars" />
 					<div class="card-block">
 						<h4 class="card-title">Kundenbewertung</h4>
 						<p class="card-text">Roland schrieb: "Bin froh den Vergleich gemacht zu haben. Der Schlüsseldienst um die Ecke wollte fast 80€ mehr haben."</p>
@@ -93,7 +83,7 @@
 			</div>
 			<div class="col-md-6">
 				<div class="card">
-					<img class="card-img-top" src="../img/icons/graphic.png" alt="stars" />
+					<img class="card-img-top" src="img/icons/graphic.png" alt="stars" />
 					<div class="card-block">
 						<h4 class="card-title">Statistik</h4>
 						<p class="card-text">
@@ -111,7 +101,6 @@
 		</div>
 
 		<hr />
-		<!-- SEO Keywords -->
 		<div class="row">
 			<div class="col-md-12">
 				<p class="text-muted">Schlüsseldienst | Vergleich | Angebot | Türe | öffen | Schlüsseldienst günstiger | Schlüsseldienst billiger | Schlüsseldienst Vergleich | Türe öffnen | Sicherheitsdienst

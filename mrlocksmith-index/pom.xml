@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>mrlocksmith</groupId>
-    <artifactId>mrlocksmith</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <groupId>mrlocksmith-index</groupId>
-  <artifactId>mrlocksmith-index</artifactId>
-  
-  
-  	<dependencyManagement>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>mrlocksmith</groupId>
+		<artifactId>mrlocksmith</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>mrlocksmith-index</groupId>
+	<artifactId>mrlocksmith-index</artifactId>
+
+
+	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
@@ -20,8 +20,8 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-  
-  	<dependencies>
+
+	<dependencies>
 
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -71,17 +71,23 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.39</version>
 			<scope>runtime</scope>
 		</dependency>
+
+		<!-- <dependency> -->
+		<!-- <groupId>org.hsqldb</groupId> -->
+		<!-- <artifactId>hsqldb</artifactId> -->
+		<!-- <scope>runtime</scope> -->
+		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
 		</dependency>
-
 	</dependencies>
-  
+
 </project>
