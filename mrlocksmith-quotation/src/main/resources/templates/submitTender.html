@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="layout">
+<head>
+<title>Mr. Locksmith - Das Vergleichsportal für Schlüsseldienstleistungen</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous" />
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous" />
+</head>
+<body>
+	<div layout:fragment="content">
+		<form>
+			<div class="jumbotron" style="background: #A9D0F5 !important">
+				<!-- Customers Questionnaire -->
+				<div class="row">
+					<div th:replace="createOfferPanel :: content"></div>
+					<div th:replace="showOrderOverviewPanel :: content"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

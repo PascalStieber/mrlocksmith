@@ -1,4 +1,4 @@
-package com.pascalstieber.mrlocksmith.register;
+package com.pascalstieber.mrlocksmith.register.data;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;

@@ -1,4 +1,4 @@
-package com.pascalstieber.mrlocksmith.register;
+package com.pascalstieber.mrlocksmith.register.data;
 
 import java.util.ArrayList;
 import java.util.List;

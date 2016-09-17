@@ -1,7 +1,5 @@
 package com.pascalstieber.mrlocksmith.index.web;
 
-import java.security.Principal;
-
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,13 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pascalstieber.mrlocksmith.index.Testentity;
+import com.pascalstieber.mrlocksmith.index.data.Testentity;
 
 @Controller
 public class IndexController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView index(Principal principal) {
+    public ModelAndView index() {
 	return new ModelAndView("layout");
     }
 

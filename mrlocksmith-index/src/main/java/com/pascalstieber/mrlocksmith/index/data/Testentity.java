@@ -1,4 +1,4 @@
-package com.pascalstieber.mrlocksmith.index;
+package com.pascalstieber.mrlocksmith.index.data;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

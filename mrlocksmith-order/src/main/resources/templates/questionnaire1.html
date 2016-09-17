@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="layout">
+<head>
+<title>Mr. Locksmith - Das Vergleichsportal für Schlüsseldienstleistungen</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous" />
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous" />
+</head>
+<body>
+	<div layout:fragment="content">
+		<form>
+			<div class="jumbotron" style="background: #A9D0F5 !important">
+				<!-- Customers Questionnaire -->
+				<div class="row">
+					<h2>
+						Schritt 1 von 5: Welche Türe lässt sich nicht öffnen?<br /> <small></small>
+					</h2>
+					<br /> <br />
+					<div class="col-md-4 text-right">
+						<!--  click feeling -->
+						<button  class="btn btn-default">
+						<div>
+<!-- 						<div class="btn btn-default"> -->
+							<div class="card customMRLSMCard">
+								<div style="margin-top:4px; border-radius:4px 4px 0 0; background: #{orderBean.order.homeOrCar.equalsIgnoreCase('car') ? '#A9D0F5':'white' };">
+									<img class="card-img-top" id="transport" src="img/icons/transport-1.png" alt="car" />
+								</div>
+								<div class="card-block">
+									<h4 class="card-title">Autotür öffnen</h4>
+								</div>
+							</div>
+						</div>
+						</button>
+					</div>
+					<div class="col-md-4 text-center">
+						<div class="btn btn-default">
+							<div class="card customMRLSMCard">
+								<div style="margin-top:4px; border-radius:4px 4px 0 0; background: #{orderBean.order.homeOrCar.equalsIgnoreCase('garage') ? '#A9D0F5':'white' };">
+									<img class="card-img-top" id="vehicle" src="/img/icons/vehicle.png" alt="garage" />
+								</div>
+								<div class="card-block">
+									<h4 class="card-title">Garage öffnen</h4>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 text-left">
+
+						<!--  click feeling -->
+						<div class="btn btn-default">
+							<div class="card customMRLSMCard">
+								<div style="margin-top:4px; border-radius:4px 4px 0 0; background: #{orderBean.order.homeOrCar.equalsIgnoreCase('home') ? '#A9D0F5':'white'};">
+									<img class="card-img-top" id="house" src="img/icons/home-2.png" alt="home" />
+								</div>
+								<div class="card-block">
+									<h4 class="card-title">Haustür öffnen</h4>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br />
+				<div class="row"></div>
+				<br />
+				<div class="row">
+					<div class="col-md-12">
+						<ul class="pager">
+							<li><a href="../../index.xhtml"><span class="glyphicon glyphicon-backward"></span> Zurück </a></li>
+							<li><a href="#{orderBean.getHomeOrCarLink()}" > 
+								Weiter 
+								<span class="glyphicon glyphicon-forward"></span>
+								</a></li>
+						</ul>
+						<div class="progress">
+							<div class="progress-bar" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 25%">25% beantwortet</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

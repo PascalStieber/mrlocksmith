@@ -24,7 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pascalstieber.mrlocksmith.register.Testentity;
+import com.pascalstieber.mrlocksmith.register.data.Testentity;
 
 @Component
 public class IndexClient {

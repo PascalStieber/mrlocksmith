@@ -1,4 +1,4 @@
-package com.pascalstieber.mrlocksmith.register;
+package com.pascalstieber.mrlocksmith.register.data;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;

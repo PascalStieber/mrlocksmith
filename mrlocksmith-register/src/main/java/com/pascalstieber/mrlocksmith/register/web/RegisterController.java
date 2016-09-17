@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pascalstieber.mrlocksmith.register.Adress;
-import com.pascalstieber.mrlocksmith.register.Contractor;
-import com.pascalstieber.mrlocksmith.register.User;
-import com.pascalstieber.mrlocksmith.register.UserRepository;
 import com.pascalstieber.mrlocksmith.register.clients.IndexClient;
+import com.pascalstieber.mrlocksmith.register.data.Adress;
+import com.pascalstieber.mrlocksmith.register.data.Contractor;
+import com.pascalstieber.mrlocksmith.register.data.User;
+import com.pascalstieber.mrlocksmith.register.data.UserRepository;
 
 @Controller
 public class RegisterController {

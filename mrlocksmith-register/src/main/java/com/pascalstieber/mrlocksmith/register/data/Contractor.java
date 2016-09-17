@@ -1,4 +1,4 @@
-package com.pascalstieber.mrlocksmith.register;
+package com.pascalstieber.mrlocksmith.register.data;
 
 import javax.persistence.Entity;
 

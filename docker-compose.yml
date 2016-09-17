@@ -24,9 +24,9 @@ zuul:
   - eureka
   ports:
   - "8080:8080"
-turbine:
-  build: mrlocksmith-server-turbine
-  links:
-   - eureka
-  ports:
-    - "8989:8989"
+#turbine:
+#  build: mrlocksmith-server-turbine
+#  links:
+#   - eureka
+#  ports:
+#    - "8989:8989"

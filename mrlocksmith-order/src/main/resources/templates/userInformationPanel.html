@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Mr. Locksmith - Das Vergleichsportal für Schlüsseldienstleistungen</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous" />
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous" />
+</head>
+<body>
+	<div th:fragment="content">
+		<form>
+			<div class="panel panel-default">
+				<div class="panel-heading">Zu Ihrer Person:</div>
+				<div class="panel-body">
+					<h:messages class="alert alert-danger" />
+					<div class="form-group">
+						<label for="vorname">Vorname:</label>
+						<h:inputText value="#{orderBean.user.firstname}" class="form-control" id="vorname" />
+						<label for="nachname">Nachname:</label>
+						<h:inputText value="#{orderBean.user.surname}" class="form-control" id="nachname" />
+					</div>
+					<div class="form-group">
+						<label for="telefonnummer">Telefonnr.:</label>
+						<h:inputText value="#{orderBean.user.phonenumber}" class="form-control" id="telefonnummer" />
+						<label for="email">Email:</label>
+						<h:inputText value="#{orderBean.user.email}" class="form-control" id="email" />
+						<label for="password">Passwort:</label>
+						<h:inputSecret value="#{orderBean.user.password}" class="form-control" id="password" />
+					</div>
+				</div>
+				<div class="panel-heading">Ihre Adresse:</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-9">
+								<label for="strasse">Strasse:</label>
+								<h:inputText value="#{orderBean.adress.street}" class="form-control" id="strasse" />
+							</div>
+							<div class="col-md-3">
+								<label for="hausnummer">Hausnr.:</label>
+								<h:inputText value="#{orderBean.adress.streetnumber}" class="form-control" id="hausnummer" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<label for="plz">Plz.:</label>
+								<h:inputText value="#{orderBean.adress.postcode}" class="form-control" id="plz" />
+							</div>
+							<div class="col-md-8">
+								<label for="ort">Ort:</label>
+								<h:inputText value="#{orderBean.adress.country}" class="form-control" id="ort" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<input type="submit" class="btn btn-success" action="#{orderBean.saveOrder()}" value="Fertig!" />
+		</form>
+	</div>
+</body>
+</html>

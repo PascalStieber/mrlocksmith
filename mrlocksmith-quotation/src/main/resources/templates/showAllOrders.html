@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Mr. Locksmith - Das Vergleichsportal für Schlüsseldienstleistungen</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous" />
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous" />
+</head>
+<body>
+	<div layout:fragment="content">
+		<form>
+			<div class="jumbotron" style="background: #A9D0F5 !important">
+				<!-- Customers Questionnaire -->
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<h2>
+							Folgende Aufträge sind aktuell zu vergeben: <br /> <small>*(Alle Aufträge beziehen sich auf die gemachten Angaben der Kunden und sind ohne gewähr.)</small>
+						</h2>
+						<h:dataTable value="#{offerBean.allOrders}" var="order" class="table table-striped text-left">
+							<h:column>
+								<f:facet name="header">Auftragsnummer:</f:facet>#{order.id}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Zu öffnen ist:</f:facet>
+								<h:graphicImage library="resources" rendered="#{order.homeOrCar.equals('home')}" styleClass="resizeImagesAsIcons" value="/resources/img/icons/home-2.png" alt="Haustür" />
+								<h:graphicImage library="resources" rendered="#{order.homeOrCar.equals('car')}" styleClass="resizeImagesAsIcons" value="/resources/img/icons/transport-1.png" alt="Auto" />
+								<h:graphicImage library="resources" rendered="#{order.homeOrCar.equals('garage')}" styleClass="resizeImagesAsIcons" value="/resources/img/icons/vehicle.png" alt="Garage" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">Schlüssel vorhanden:</f:facet>
+								<span class="#{order.keyNotAvailable ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'}"></span>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Tür ist aus:</f:facet>
+								<h:graphicImage library="resources" rendered="#{order.door.equals('iron')}" styleClass="resizeImagesAsIcons" value="/resources/img/icons/iron-man.png" alt="Stahl" />
+								<h:graphicImage library="resources" rendered="#{order.door.equals('wooden')}" styleClass="resizeImagesAsIcons" value="/resources/img/icons/chopped-log.png" alt="Holz" />
+								<h:graphicImage library="resources" rendered="#{order.door.equals('normal')}" styleClass="resizeImagesAsIcons" value="/resources/img/icons/exit-1.png" alt="Normal" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">Express erwünscht:</f:facet>
+
+								<span class="#{order.express ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'}"></span>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Adresse:</f:facet>
+								<h:dataTable value="#{order.adress}" var="adress" class="table table-striped text-left">
+									<h:column>
+										<f:facet name="header">Sraße / Hausnr.: </f:facet>#{adress.street} #{adress.streetnumber}  
+			    					</h:column>
+									<h:column>
+										<f:facet name="header">PLZ / Ort</f:facet>#{adress.postcode} #{adress.country}
+			    					</h:column>
+								</h:dataTable>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Aktionen:</f:facet>
+								<h:link class="btn btn-primary btn-xs" rendered="#{not offerBean.checkIfLoggedInUserAlreadySubmitTender(order)}" outcome="./submitTender.xhtml" value="Angebot abgeben">
+									<f:param name="orderID" value="#{order.id}"></f:param>
+								</h:link>
+								<h:link class="btn btn-info btn-xs" rendered="#{offerBean.checkIfLoggedInUserAlreadySubmitTender(order) and not offerBean.checkIfOfferAlreadyAccepted(order)}" outcome="./submitTender.xhtml"
+									value="Angebot bearbeiten">
+									<f:param name="orderID" value="#{order.id}"></f:param>
+								</h:link>
+								<h:commandButton value="Angebot stornieren" class="btn btn-danger btn-xs"
+									rendered="#{offerBean.checkIfLoggedInUserAlreadySubmitTender(order)  and not offerBean.checkIfOfferAlreadyAccepted(order)}" action="#{offerBean.deleteOffer(order)}" />
+								<h:graphicImage library="resources" rendered="#{offerBean.checkIfOfferAlreadyAccepted(order)}" styleClass="resizeImagesAsIcons" value="/resources/img/icons/agreement.png"
+									alt="Angebot akzeptiert" />
+							</h:column>
+						</h:dataTable>
+
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
