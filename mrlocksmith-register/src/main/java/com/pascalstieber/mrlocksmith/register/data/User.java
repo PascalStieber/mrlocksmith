@@ -13,6 +13,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -22,7 +25,7 @@ public class User {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     @NotEmpty(message = "Vorname darf nicht leer sein!")
     @Size(min = 2, max = 20, message = "Der Vorname muss min. 3 und darf max. 20 Zeichen lang sein.")
@@ -30,6 +33,8 @@ public class User {
     @NotEmpty(message = "Nachname darf nicht leer sein!")
     @Size(min = 2, max = 30, message = "Der Nachname muss min. 3 und darf max. 30 Zeichen lang sein.")
     private String surname;
+
+    private long orderid;
 
     @NotEmpty(message = "Email darf nicht leer sein!")
     @Email
@@ -39,7 +44,7 @@ public class User {
 
     @NotEmpty(message = "Passwort darf nicht leer sein!")
     private String password;
-    private String role;
+    private String role = "customer";
 
     @ManyToMany(cascade = CascadeType.ALL, targetEntity = Adress.class)
     @JoinTable(name = "User_Adress")
@@ -69,14 +74,14 @@ public class User {
     }
 
     public void setAdresses(List<Adress> adresses) {
-        this.adresses = adresses;
+	this.adresses = adresses;
     }
 
-    public long getId() {
+    public Long getId() {
 	return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
 	this.id = id;
     }
 
@@ -126,5 +131,29 @@ public class User {
 
     public void setPassword(String password) {
 	this.password = password;
+    }
+
+    public long getOrderid() {
+	return orderid;
+    }
+
+    public void setOrderid(long orderid) {
+	this.orderid = orderid;
+    }
+
+    @Override
+    public String toString() {
+	return ToStringBuilder.reflectionToString(this);
+    }
+
+    @Override
+    public int hashCode() {
+	return HashCodeBuilder.reflectionHashCode(this);
+
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	return EqualsBuilder.reflectionEquals(this, obj);
     }
 }

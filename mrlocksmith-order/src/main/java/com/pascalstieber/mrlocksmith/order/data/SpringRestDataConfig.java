@@ -9,7 +9,7 @@ public class SpringRestDataConfig extends RepositoryRestMvcConfiguration{
 
     @Override
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config){
-	config.exposeIdsFor(Order.class);
+	config.exposeIdsFor(OrderEntity.class);
 	
     }
     

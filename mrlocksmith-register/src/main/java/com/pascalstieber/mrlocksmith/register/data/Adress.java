@@ -34,7 +34,7 @@ public class Adress {
     private String streetnumber;
 
     @ManyToMany(mappedBy = "adresses")
-    private Set<User> user = new HashSet<User>();
+    private Set<User> users = new HashSet<User>();
 
     public long getId() {
         return id;
@@ -44,12 +44,12 @@ public class Adress {
         this.id = id;
     }
 
-    public Set<User> getUser() {
-	return user;
+    public Set<User> getUsers() {
+	return users;
     }
 
     public void addUser(User user) {
-	this.user.add(user);
+	this.users.add(user);
     }
 
     public String getStreet() {

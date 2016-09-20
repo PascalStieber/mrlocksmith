@@ -13,64 +13,59 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<form>
-			<div class="jumbotron" style="background: #A9D0F5 !important">
+		<form th:method="post" th:action="questionnaireHome2Form.html" th:object="${order}" role="form">
+			<div class="jumbotron" style="background: #D0F5A9 !important">
 				<!-- Customers Questionnaire -->
 				<div class="row">
-
 					<h2>
 						Schritt 2 von 5: Ist der Schlüssel momentan in Ihrem Besitz?<br /> <small>(Falls der Schlüssel abgebrochen ist, markieren Sie 'Schlüssel nicht vorhanden'.)</small>
 					</h2>
 					<br /> <br />
 					<div class="col-md-6 text-right">
-						<!--  click feeling -->
-						<h:commandLink>
-							<div class="btn btn-default">
-
-								<div class="card customMRLSMCard">
-									<div style="margin-top:4px; border-radius:4px 4px 0 0; background: #{orderBean.order.keyNotAvailable == 'true' ? 'white' : '#A9D0F5'};">
-										<img class="card-img-top" id="keyAvailable" src="img/icons/close.png" alt="keyNotAvailable">
-									</div>
-									<div class="card-block">
-										<h4 class="card-title">Schlüssel vorhanden</h4>
-										<p class="card-text"></p>
-									</div>
+						<button th:attr="class=${order.keyNotAvailable ? 'btn btn-default' : 'btn btn-primary' }" name="keyNotAvailable" th:value="false">
+							<div class="card customMRLSMCard">
+								<div style="margin-top: 4px; border-radius: 4px 4px 0 0;">
+									<img class="card-img-top" id="keyAvailable" src="img/icons/close.png" alt="keyNotAvailable" />
+								</div>
+								<div class="card-block">
+									<h4 class="card-title">Schlüssel vorhanden</h4>
+									<p class="card-text"></p>
 								</div>
 							</div>
-						</h:commandLink>
+						</button>
 					</div>
-
 					<div class="col-md-6 text-left">
-
-						<!--  click feeling -->
-						<h:commandLink>
-							<div class="btn btn-default">
-
-								<div class="card customMRLSMCard">
-									<div style="margin-top:4px; border-radius:4px 4px 0 0; background: #{orderBean.order.keyNotAvailable == 'false' ? 'white' : '#A9D0F5'};">
-										<img class="card-img-top" id="keyNotAvailable" src="img/icons/close-1.png" alt="keyNotAvailable" />
-									</div>
-									<div class="card-block">
-										<h4 class="card-title">
-											Schlüssel nicht vorhanden <br /> <small>oder defekt</small>
-										</h4>
-										<p class="card-text"></p>
-									</div>
+						<button th:attr="class=${order.keyNotAvailable ? 'btn btn-primary' : 'btn btn-default'}" name="keyNotAvailable" th:value="true">
+							<div class="card customMRLSMCard">
+								<div style="margin-top: 4px; border-radius: 4px 4px 0 0;">
+									<img class="card-img-top" id="keyNotAvailable" src="img/icons/close-1.png" alt="keyNotAvailable" />
+								</div>
+								<div class="card-block">
+									<h4 class="card-title">
+										nicht vorhanden <br /> <small>oder defekt</small>
+									</h4>
+									<p class="card-text"></p>
 								</div>
 							</div>
-						</h:commandLink>
+						</button>
 					</div>
 				</div>
+
 				<br />
 				<div class="row"></div>
 				<br />
 				<div class="row">
 					<div class="col-md-12">
 						<ul class="pager">
-							<li><a href="./questionnaire1.xhtml?faces-redirect=true"><span class="glyphicon glyphicon-backward"></span> Zurück </a></li>
-							<li><h:link outcome="./questionnaireHome3.xhtml" includeViewParams="true"> Weiter <span class="glyphicon glyphicon-forward"></span>
-								</h:link></li>
+							<li><button class="btn btn-default" th:value="backward" name="backward">
+									<span class="glyphicon glyphicon-backward"></span> Zurueck
+								</button></li>
+							<li><button class="btn btn-default" th:value="forward" name="forward">
+									Weiter <span class="glyphicon glyphicon-forward"></span>
+								</button></li>
 						</ul>
+						<input type="hidden" th:value="*{homeOrCar}" name="homeOrCar" /> 
+						<input type="hidden" th:value="*{keyNotAvailable}" name="keyNotAvailable" />
 
 						<div class="progress">
 							<div class="progress-bar" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 50%">50% beantwortet</div>

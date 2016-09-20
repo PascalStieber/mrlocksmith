@@ -1,11 +1,8 @@
-package com.pascalstieber.mrlocksmith.register.clients;
+package com.pascalstieber.mrlocksmith.order.clients;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,33 +12,35 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.hal.Jackson2HalModule;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pascalstieber.mrlocksmith.register.data.Testentity;
+import com.pascalstieber.mrlocksmith.order.data.Adress;
+import com.pascalstieber.mrlocksmith.order.data.User;
 
 @Component
-public class IndexClient {
+public class RegisterClient {
 
-    private final Logger log = LoggerFactory.getLogger(IndexClient.class);
-    private String indexServiceHost;
-    private long indexServicePort;
+    private final Logger log = LoggerFactory.getLogger(RegisterClient.class);
+    private String registerServiceHost;
+    private long registerServicePort;
     private boolean useRibbon;
     private LoadBalancerClient loadBalancer;
     private RestTemplate restTemplate;
 
     @Autowired
-    public IndexClient(@Value("${index.service.host:index}") String indexServiceHost, @Value("${index.service.port:8080}") long indexServicePort,
-	    @Value("${ribbon.eureka.enabled:false}") boolean useRibbon) {
+    public RegisterClient(@Value("${register.service.host:register}") String registerServiceHost,
+	    @Value("${register.service.port:8080}") long registerServicePort, @Value("${ribbon.eureka.enabled:false}") boolean useRibbon) {
 	super();
-	this.indexServiceHost = indexServiceHost;
-	this.indexServicePort = indexServicePort;
+	this.registerServiceHost = registerServiceHost;
+	this.registerServicePort = registerServicePort;
 	this.useRibbon = useRibbon;
 	this.restTemplate = getRestTemplate();
     }
@@ -51,37 +50,46 @@ public class IndexClient {
 	this.loadBalancer = loadBalancer;
     }
 
-    public String getIndexURL() {
+    public String getRegisterURL() {
 	String url;
 	if (useRibbon) {
-	    ServiceInstance instance = loadBalancer.choose("INDEX");
+	    ServiceInstance instance = loadBalancer.choose("REGISTER");
 	    url = "http://" + instance.getHost() + ":" + instance.getPort() + "/";
 	} else {
-	    url = "http://" + indexServiceHost + ":" + indexServicePort + "/index/";
+	    url = "http://" + registerServiceHost + ":" + registerServicePort + "/register/";
 	}
-	log.trace("Index: URL {} ", url);
+	log.trace("Register: URL {} ", url);
 	return url;
     }
 
-    public Testentity getOne(long testId) {
-	Testentity lEntity = new Testentity();
+    public User getUser(long userid) {
 	try {
-	    lEntity = restTemplate.getForObject(getIndexURL() + testId + ".html", Testentity.class);
+	    User user = restTemplate.getForObject(getRegisterURL() + "findUserById/" + userid, User.class);
+	    return user;
 	} catch (RestClientException e) {
-	    log.trace(e.toString());
+	    log.error(e.toString());
 	}
-	return lEntity;
+	return null;
+    }
+
+    public List<Adress> getAdresses(long userid) {
+	try {
+	    List<Adress> adresses = restTemplate.getForObject(getRegisterURL() +"findAdressesByUserid/" + userid, List.class);
+	    log.trace("Anzahl ermittelter adressen:"+adresses.size());
+	    return adresses;
+	} catch (RestClientException e) {
+	    log.error(e.toString());
+	}
+	return null;
     }
 
     protected RestTemplate getRestTemplate() {
 	ObjectMapper mapper = new ObjectMapper();
 	mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	mapper.registerModule(new Jackson2HalModule());
-
 	MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-	converter.setSupportedMediaTypes(Arrays.asList(MediaTypes.HAL_JSON));
+	converter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
 	converter.setObjectMapper(mapper);
-
 	return new RestTemplate(Collections.<HttpMessageConverter<?>> singletonList(converter));
     }
 }

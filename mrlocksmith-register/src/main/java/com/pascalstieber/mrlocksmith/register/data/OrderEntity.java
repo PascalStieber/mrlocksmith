@@ -1,35 +1,25 @@
-package com.pascalstieber.mrlocksmith.order.data;
+package com.pascalstieber.mrlocksmith.register.data;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 
 @Entity
-public class Order {
+public class OrderEntity {
 
     @Id
     @GeneratedValue
     private long id;
 
-    private boolean keyNotAvailable = false;
-    private String homeOrCar = "home";
-    private String door = "normal";
-    private boolean express;
+    private boolean keyNotAvailable=true;
+    private String homeOrCar="garage";
+    private String door="wooden";
+    private boolean express=false;
 
-    // @ManyToOne
-    // private User user;
-    //
-    // @ManyToOne
-    // private Adress adress;
-    //
+     
+    private long userid;
+    
+     
     // @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch =
     // FetchType.LAZY)
     // @OrderBy("id DESC")
@@ -43,21 +33,14 @@ public class Order {
     // this.offers.add(offer);
     // }
     //
-    // public User getUser() {
-    // return user;
-    // }
-    //
-    // public void setUser(User user) {
-    // this.user = user;
-    // }
-    //
-    // public Adress getAdress() {
-    // return adress;
-    // }
-    //
-    // public void setAdress(Adress adress) {
-    // this.adress = adress;
-    // }
+     public long getUserid() {
+     return userid;
+     }
+    
+     public void setUserid(long userid) {
+     this.userid = userid;
+     }
+    
 
     public boolean isKeyNotAvailable() {
 	return keyNotAvailable;
