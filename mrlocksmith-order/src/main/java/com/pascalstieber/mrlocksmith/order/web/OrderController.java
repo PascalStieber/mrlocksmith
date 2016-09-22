@@ -1,15 +1,16 @@
 package com.pascalstieber.mrlocksmith.order.web;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pascalstieber.mrlocksmith.order.clients.RegisterClient;
@@ -130,10 +131,11 @@ public class OrderController {
 	return new ModelAndView(REDIRECT_ON_HOST + "register/registerCustomerWithOrder.html?orderid="+ order.getId());
     }
     
-    @RequestMapping(value = "/associateUserToOrder.html", method = RequestMethod.GET)
-    public ModelAndView associateUserToOrder(@RequestParam("orderid") long orderid, @RequestParam("userid") long userid) {
-	OrderEntity order = orderRepository.findById(orderid);
+    @RequestMapping(value = "/associateUserAndAdressToOrder.html", method = RequestMethod.GET)
+    public ModelAndView associateUserToOrder(@RequestParam("orderid") long orderid, @RequestParam("userid") long userid, @RequestParam("adressid") long adressid) {
+	OrderEntity order = orderRepository.findOne(orderid);
 	order.setUserid(userid);
+	order.setAdressid(adressid);
 	orderRepository.save(order);
 	return new ModelAndView("showCustomersQuotations");
     }
@@ -143,7 +145,24 @@ public class OrderController {
 	Iterable<OrderEntity> orders = orderRepository.findAll();
 	return new ModelAndView("showCustomersQuotations", "orders", orders);
     }
+    
+    @RequestMapping(value = "/findOrderByUserid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody OrderEntity findOrder(@PathVariable("id") long id) {
+	OrderEntity order = orderRepository.findByUserid(id);
+	return order;
+    }
+    
+    @RequestMapping(value = "/findOrderByOrderid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody OrderEntity findOrderByOrderid(@PathVariable("id") long id) {
+	OrderEntity order = orderRepository.findOne(id);
+	return order;
+    }
 
+    @RequestMapping(value = "/findAllOrders", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Iterable<OrderEntity> findAllOrder() {
+	Iterable<OrderEntity> order = orderRepository.findAll();
+	return order;
+    }
     
 
 }

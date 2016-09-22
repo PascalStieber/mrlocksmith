@@ -12,7 +12,7 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<form th:action="${user.id!=0} ? ${user.id}+'.html' : 'formCustomer.html' " th:object="${user}" th:method="${user.id != 0} ? put : post" role="form">
+		<form th:action="formCustomer.html" th:object="${user}" th:method="post" role="form">
 			<div class="jumbotron" style="background: #D0F5A9 !important">
 				<div class="row">
 					<input type="hidden" th:value="*{orderid}" name="orderid" />

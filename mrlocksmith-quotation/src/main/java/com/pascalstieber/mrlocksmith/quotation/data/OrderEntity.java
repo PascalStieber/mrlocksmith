@@ -1,17 +1,13 @@
-package com.pascalstieber.mrlocksmith.order.data;
+package com.pascalstieber.mrlocksmith.quotation.data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import org.springframework.hateoas.ResourceSupport;
 
-import org.apache.catalina.filters.AddDefaultCharsetFilter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Entity
-public class OrderEntity {
+public class OrderEntity extends ResourceSupport {
 
-    @Id
-    @GeneratedValue
-    private long id;
+    @JsonProperty("id")
+    private long orderid;
 
     private boolean keyNotAvailable = true;
     private String homeOrCar = "garage";
@@ -20,7 +16,7 @@ public class OrderEntity {
 
     private long userid;
     private long adressid;
-    
+
     public long getUserid() {
 	return userid;
     }
@@ -61,21 +57,20 @@ public class OrderEntity {
 	this.express = express;
     }
 
-    public long getId() {
-	return id;
+    public long getOrderid() {
+	return orderid;
     }
 
-    public void setId(long id) {
-	this.id = id;
+    public void setOrderid(long orderid) {
+	this.orderid = orderid;
     }
 
-    public long getAdressid(){
+    public long getAdressid() {
 	return adressid;
     }
-    
+
     public void setAdressid(long adressid) {
 	this.adressid = adressid;
-	
     }
 
 }

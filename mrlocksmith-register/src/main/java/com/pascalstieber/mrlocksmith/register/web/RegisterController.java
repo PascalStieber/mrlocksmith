@@ -49,13 +49,19 @@ public class RegisterController {
 	User user = userRepository.findById(id);
 	return user;
     }
+
     @RequestMapping(value = "/findAdressesByUserid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Adress> getUser(@PathVariable("id") long id) {
 	List<Adress> adressList = userRepository.getUserAdressesByUserId(id);
 	return adressList;
     }
     
-    
+    @RequestMapping(value = "/findAdressById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Adress getAdressById(@PathVariable("id") long id) {
+	Adress adress = adressRepository.findOne(id);
+	return adress;
+    }
+
 
     @RequestMapping(value = "/registerContractor.html", method = RequestMethod.GET)
     public ModelAndView addContractor() {
@@ -82,14 +88,6 @@ public class RegisterController {
 	return new ModelAndView("registerCustomer", "user", user);
     }
 
-    // update
-    @RequestMapping(value = "/{id}.html", method = RequestMethod.PUT)
-    public ModelAndView put(@PathVariable("id") long id, User user, HttpServletRequest httpRequest) {
-	user.setId(id);
-	userRepository.save(user);
-	return new ModelAndView("/order/");
-    }
-
     // create
     @RequestMapping(value = "/formCustomer.html", method = RequestMethod.POST)
     public ModelAndView postCustomer(@Valid User user, BindingResult bindingResult, HttpServletRequest httpRequest) {
@@ -97,9 +95,11 @@ public class RegisterController {
 	    return new ModelAndView("registerCustomer");
 	}
 	user = userRepository.save(user);
+	
 	if (user.getOrderid() != 0) {
-	    String url = REDIRECT_ON_HOST + "order/associateUserToOrder.html?orderid=%s&userid=%s";
-	    String formattedURL = String.format(url, user.getOrderid(), user.getId());
+	    Adress adress = userRepository.getOneUserAdressesByUseridAndOrderid(user.getId(), user.getOrderid());
+	    String url = REDIRECT_ON_HOST + "order/associateUserAndAdressToOrder.html?orderid=%s&userid=%s&adressid=%s";
+	    String formattedURL = String.format(url, user.getOrderid(), user.getId(), adress.getId());
 	    return new ModelAndView(formattedURL);
 	}
 

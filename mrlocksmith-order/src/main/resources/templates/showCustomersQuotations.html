@@ -113,51 +113,49 @@
 														<div th:if="${not order.express}">
 															<span class="glyphicon glyphicon-remove"></span>
 														</div>
-														<span class="#{order.express ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'}"></span>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 									<div class="col-md-8 text-center">
-<!-- 									each quotation -->
+										<table th:unless="${#lists.isEmpty(@quotationClient.findAllQuotationsForOrder(__${order.id}__))}" class="table table-striped">
+											<thead>
+												<tr>
+													<th>Angebotsnummer:</th>
+													<th>Unternehmen:</th>
+													<th>Angebot stellt sich zusammen aus:</th>
+												</tr>
+											</thead>
+											<tbody th:each="quotation, rowStat : ${@quotationClient.findAllQuotationsForOrder(__${order.id}__))}">
+												<tr>
+													<td><input type="text" th:text="*{quotation}" id="number" /></td>
+													<td><input type="text" th:text="*{items[__${rowStat.index}__].value}" class="form-control" id="value" /></td>
+													<td><button name="action" th:value="submitTender" class="btn btn-danger btn-xs">x</button></td>
+													<td><table class="table table-striped table-bordered text-left">
+															<thead>
+																<tr>
+																	<th>Posten:</th>
+																	<th>Betrag:</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td><input type="text" th:text="${@registerClient.getAdresses(__${order.id}__)}" id="name" /></td>
+																	<td><input type="text" th:text="*{items[__${rowStat.index}__].value}" class="form-control" id="value" /></td>
+																	<td><button class="btn btn-success btn-xs">
+																			Für<span> x</span>€ akzeptieren
+																		</button></td>
+																</tr>
+															</tbody>
+														</table></td>
+												</tr>
+											</tbody>
+										</table>
 									</div>
-									
 								</div>
 							</div>
-
 							<hr />
-							<!-- 																<div class="col-md-8 text-center"> -->
-							<!-- 																	<h:dataTable value="#{order.offers}" var="offer" class="table table-striped table-inverse text-left"> -->
-							<!-- 																		<hr /> -->
-							<!-- 																		<h:column> -->
-							<!-- 																			<f:facet name="header" class="colOffer1">Angebotsnummer:</f:facet>##{offer.id} <br /> -->
-							<!-- 																		Eingegangen: -->
-							<!-- 																		<h:outputText value="#{offer.createdAt}"> -->
-							<!-- 																				<f:convertDateTime pattern="dd.MM.yyyy HH:mm" /> -->
-							<!-- 																			</h:outputText> -->
-							<!-- 																		</h:column> -->
-							<!-- 																		<h:column> -->
-							<!-- 																			<f:facet name="header" class="colOffer2">Unternehmen:</f:facet>#{offer.contractor.companyname} -->
-							<!-- 																	</h:column> -->
-							<!-- 																		<h:column> -->
-							<!-- 																			<f:facet class="colOffer3" name="header">Angebot stellt sich zusammen aus:</f:facet> -->
-							<!-- 																			<h:dataTable value="#{offer.items}" var="item" class="table table-striped table-bordered text-left"> -->
-							<!-- 																				<h:column> -->
-							<!-- 																					<f:facet class="colItem1" name="header">Posten:</f:facet>#{item.name} -->
-							<!-- 																			</h:column> -->
-							<!-- 																				<h:column> -->
-							<!-- 																					<f:facet class="colItem2" name="header">Betrag:</f:facet>#{item.value} -->
-							<!-- 																			</h:column> -->
-							<!-- 																			</h:dataTable> -->
-							<!-- 																		Total: -->
-							<!-- 																		<h:commandButton action="#{orderBean.accept(offer)}" value="#{offer.items.stream().map(item->item.value).sum()} € akzeptieren" class="btn btn-success btn-xs" /> -->
-							<!-- 																		</h:column> -->
-							<!-- 																	</h:dataTable> -->
-							<!-- 																</div> -->
-							<!-- 															</div> -->
-							<!-- 															</h:panelGroup> -->
-							<!-- 															</ui:repeat> -->
 						</div>
 					</div>
 				</div>

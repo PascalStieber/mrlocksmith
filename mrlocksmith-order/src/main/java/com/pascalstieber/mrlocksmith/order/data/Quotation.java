@@ -1,23 +1,23 @@
-package com.pascalstieber.mrlocksmith.quotation.data;
+package com.pascalstieber.mrlocksmith.order.data;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
-@Entity
-public class Quotation {
+import org.springframework.hateoas.ResourceSupport;
 
-    @Id
-    @GeneratedValue
-    private long id;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class Quotation extends ResourceSupport {
+
+    @JsonProperty("id")
+    private long quotationid;
 
     private boolean accepted = false;
     private Date acceptedAt;
@@ -25,12 +25,12 @@ public class Quotation {
     private long orderid;
     private long contractorid;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "quotation", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "quotation", fetch = FetchType.LAZY, orphanRemoval = true)
     @OrderBy("id DESC")
     private List<Item> items = new ArrayList<>();
 
     public void setItems(List<Item> items) {
-        this.items = items;
+	this.items = items;
     }
 
     public List<Item> getItems() {
@@ -61,12 +61,12 @@ public class Quotation {
 	this.acceptedAt = acceptedAt;
     }
 
-    public long getId() {
-	return id;
+    public long getQuotationid() {
+        return quotationid;
     }
 
-    public void setId(long id) {
-	this.id = id;
+    public void setQuotationid(long quotationid) {
+        this.quotationid = quotationid;
     }
 
     public long getOrderid() {
@@ -84,6 +84,5 @@ public class Quotation {
     public void setContractorid(long contractorid) {
 	this.contractorid = contractorid;
     }
-
 
 }

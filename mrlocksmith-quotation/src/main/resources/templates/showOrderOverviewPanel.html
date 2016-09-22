@@ -12,72 +12,83 @@
 	crossorigin="anonymous" />
 </head>
 <body>
-	<div layout:fragment="content">
+	<div th:fragment="content">
 		<div class="col-md-6 text-left">
 			<div class="panel panel-default">
-				<div class="panel-heading">Der Auftrag ##{offerBean.order.id} im Überblick:</div>
+				<div class="panel-heading">
+					Der Auftrag # <span th:text="${quotation.orderid}"></span> im Überblick:
+				</div>
 				<div class="panel-body">
 					<div class="row">
-						<div class="col-md-6">
-							<label for="vorname">Vorname:</label>
-							<h:outputText value="#{offerBean.order.user.firstname}" id="vorname" />
-						</div>
-						<div class="col-md-6">
-							<label for="nachname">Nachname:</label>
-							<h:outputText value="#{offerBean.order.user.surname}" id="nachname" />
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-6">
-							<label for="email">Email:</label>
-							<h:outputText value="#{offerBean.order.user.email}" id="email" />
-						</div>
-						<div class="col-md-6">
-							<label for="telefonnummer">Telefonnummer:</label>
-							<h:outputText value="#{offerBean.order.user.phonenumber}" id="telefonnummer" />
-						</div>
-					</div>
-					<hr />
-					<div class="row">
-						<div class="col-md-6">
-							<label for="strasse">Strasse:</label>
-							<h:outputText value="#{offerBean.order.adress.street}" id="strasse" />
-						</div>
-						<div class="col-md-6">
-							<label for="hausnummer">Hausnr.:</label>
-							<h:outputText value="#{offerBean.order.adress.streetnumber}" id="hausnummer" />
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-6">
-							<label for="plz">PLZ:</label>
-							<h:outputText value="#{offerBean.order.adress.postcode}" id="plz" />
-						</div>
-						<div class="col-md-6">
-							<label for="ort">Ort:</label>
-							<h:outputText value="#{offerBean.order.adress.country}" id="ort" />
+						<div th:object="${@quotationService.getUserById(__${quotation.orderid}__)}">
+							<div class="col-md-6">
+								<label for="vorname">Vorname:</label> <span class="form-control-static" th:text="*{firstname}" id="vorname"></span>
+							</div>
+							<div class="col-md-6">
+								<label for="nachname">Nachname:</label> <span class="form-control-static" th:text="*{surname}" id="nachname"></span>
+							</div>
+
+							<div class="row">
+								<div class="col-md-6">
+									<label for="email">Email:</label> <span class="form-control-static" th:text="*{email}" id="email"></span>
+								</div>
+								<div class="col-md-6">
+									<label for="telefonnummer">Telefonnummer:</label> <span class="form-control-static" th:text="*{phonenumber}" id="telefonnummer"></span>
+								</div>
+							</div>
 						</div>
 					</div>
 					<hr />
 					<div class="row">
-						<div class="col-md-6">
-							<label>Zu öffnen ist eine:</label>
-							<h:outputText rendered="#{offerBean.order.homeOrCar.equals('home')}" value="Haustür" />
-							<h:outputText rendered="#{offerBean.order.homeOrCar.equals('car')}" value="Autotür" />
-						</div>
-						<div class="col-md-6">
-							<label>Tür ist aus:</label>
-							<h:outputText rendered="#{offerBean.order.door.equals('iron')}" value="Stahl" />
-							<h:outputText rendered="#{offerBean.order.door.equals('wooden')}" value="Holz" />
-							<h:outputText rendered="#{offerBean.order.door.equals('normal')}" value="Normal / k.A." />
+						<div th:object="${@quotationService.getOrderAdressByOrderid(__${quotation.orderid}__)}">
+							<div class="col-md-6">
+								<label for="strasse">Strasse:</label> <span class="form-control-static" th:text="*{street}" id="strasse"></span>
+							</div>
+							<div class="col-md-6">
+								<label for="hausnummer">Hausnr.:</label> <span class="form-control-static" th:text="*{streetnumber}" id="hausnummer"></span>
+							</div>
+
+							<div class="row">
+								<div class="col-md-6">
+									<label for="plz">PLZ:</label> <span class="form-control-static" th:text="*{postcode}" id="plz"></span>
+								</div>
+								<div class="col-md-6">
+									<label for="ort">Ort:</label> <span class="form-control-static" th:text="*{country}" id="ort"></span>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-6">
-							<label>Schlüssel vorhanden:</label> <span class="#{offerBean.order.keyNotAvailable ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'}"></span>
+					<hr />
+					<div th:object="${@quotationService.getOrderById(__${quotation.orderid}__)}">
+						<div class="row">
+							<div class="col-md-6">
+								<label>Zu öffnen ist eine:</label> <span class="form-control-static" th:if="*{homeOrCar=='home'}">Haustür</span> <span class="form-control-static"
+									th:if="*{homeOrCar=='car'}">Autotür</span><span class="form-control-static" th:if="*{homeOrCar=='garage'}">Garage</span>
+							</div>
+							<div class="col-md-6">
+								<label>Tür ist aus:</label> <span class="form-control-static" th:if="*{door=='iron'}">Stahl</span> <span class="form-control-static" th:if="*{door=='wooden'}">Holz</span>
+								<span class="form-control-static" th:if="*{door=='normal'}">Normal / k.A.</span>
+							</div>
 						</div>
-						<div class="col-md-6">
-							<label>Express erwünscht: </label> <span class="#{offerBean.order.express ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'}"></span>
+						<div class="row">
+							<div class="col-md-6">
+								<label>Schlüssel vorhanden:</label>
+								<div th:if="*{not keyNotAvailable}">
+									<span class="glyphicon glyphicon-ok"></span>
+								</div>
+								<div th:if="*{keyNotAvailable}">
+									<span class="glyphicon glyphicon-remove"></span>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<label>Express erwünscht: </label>
+								<div th:if="*{express}">
+									<span class="glyphicon glyphicon-ok"></span>
+								</div>
+								<div th:if="*{not express}">
+									<span class="glyphicon glyphicon-remove"></span>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

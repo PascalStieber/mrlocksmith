@@ -17,29 +17,32 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">Ihr Angebot:</div>
 				<div class="panel-body">
-					<h:messages class="alert alert-danger" />
-					<h:dataTable value="#{offerBean.offer.items}" var="item" class="table text-left">
-						<h:column class="colOrder1">
-							<f:facet name="header">Posten:</f:facet>
-							<h:inputText value="#{item.name}" class="form-control" required="true" requiredMessage="Posten ist erforderlich!" />
-						</h:column>
-						<h:column class="colOrder2">
-							<f:facet name="header">Betrag:</f:facet>
-							<h:inputText value="#{item.value}" class="form-control" required="true" requiredMessage="Betrag ist erforderlich!">
-								<f:validateRegex pattern="^[0-9]*[.][0-9][0-9]" />
-							</h:inputText>
-						</h:column>
-						<h:column class="colOrder3">
-							<f:facet name="header">Action:</f:facet>
-							<h:commandButton value="x" class="btn btn-danger btn-xs" rendered="#{not empty item.name}" action="#{offerBean.removeItemFromOffer(item)}" />
-						</h:column>
-						<f:facet name="footer">
-							<h:commandButton value="+" class="btn btn-info btn-xs" action="#{offerBean.addItemToOffer()}" />
-							<h:commandButton class="btn btn-success btn-xs" action="#{offerBean.saveOffer()}" rendered="#{not offerBean.checkIfLoggedInUserAlreadySubmitTender()}" value="Angebot absenden!" />
-							<h:commandButton class="btn btn-warning btn-xs" action="#{offerBean.updateOffer()}" rendered="#{offerBean.checkIfLoggedInUserAlreadySubmitTender()}" value="Bearbeitung speichern!" />
-						</f:facet>
-					</h:dataTable>
-
+					<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+						<li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+					</ul>
+					<div th:unless="${#lists.isEmpty(quotation.items)}">
+					<table >
+						<thead>
+							<tr>
+								<th>Posten:</th>
+								<th>Betrag:</th>
+								<th>Aktion:</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="item, rowStat : *{items}" class="table table-striped">
+								<td><input type="text" th:field="*{items[__${rowStat.index}__].name}" class="form-control" id="name"/></td>
+								<td><input type="text" th:field="*{items[__${rowStat.index}__].value}" class="form-control" id="value"/></td>
+								<td><button name="action" th:value="removeItem" th:formaction="'deleteItem/' + ${item.id}" class="btn btn-danger btn-xs">x</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
+					<input type="hidden" th:value="${quotation.id}" name="quotationid" />
+					<input type="hidden" th:value="${quotation.orderid}" name="orderid" />
+					<button class="btn btn-success btn-xs" th:value="addItem" name="action">+</button>
+					<button class="btn btn-warning btn-xs" th:value="saveTender" name="action">Angebot speichern</button>
 				</div>
 			</div>
 		</div>

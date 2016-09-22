@@ -13,9 +13,10 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<form>
-			<div class="jumbotron" style="background: #A9D0F5 !important">
-				<!-- Customers Questionnaire -->
+		<form th:object="${quotation}" th:action="formQuotation.html" th:method="post" role="form">
+			
+			<div class="jumbotron" style="background: #D0F5A9 !important">
+				
 				<div class="row">
 					<div th:replace="createOfferPanel :: content"></div>
 					<div th:replace="showOrderOverviewPanel :: content"></div>

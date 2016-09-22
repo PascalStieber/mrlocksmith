@@ -7,6 +7,9 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(collectionResourceRel = "orderentity", path = "orderentity")
 public interface OrderRepository extends PagingAndSortingRepository<OrderEntity, Long> {
 
-    OrderEntity findById(@Param("id") long id);
+
+    OrderEntity findByUserid(@Param("userid") long userid);
+    
+    
 
 }

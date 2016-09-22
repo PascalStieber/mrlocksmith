@@ -12,7 +12,7 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<form th:action="${contractor.id!=0} ? ${contractor.id}+'.html' : 'formContractor.html' " th:object="${contractor}" th:method="${contractor.id != 0} ? put : post" role="form">
+		<form th:action="formContractor.html" th:object="${contractor}" th:method="post" role="form">
 			<div class="jumbotron" style="background: #D0F5A9 !important">
 				<div class="row">
 					<div class="col-md-6">
@@ -20,10 +20,9 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">Zu Ihrer Person:</div>
 								<div class="panel-body">
-									<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-										<li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
-									</ul>
-
+										<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+											<li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+										</ul>
 									<div class="form-group">
 										<label for="vorname">Vorname:</label> <input type="text" th:field="*{firstname}" class="form-control" id="vorname" /> <label for="nachname">Nachname:</label> <input type="text"
 											th:field="*{surname}" class="form-control" id="nachname" />

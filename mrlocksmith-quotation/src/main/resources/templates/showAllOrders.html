@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="layout">
 <head>
 <title>Mr. Locksmith - Das Vergleichsportal für Schlüsseldienstleistungen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -13,70 +13,69 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<form>
-			<div class="jumbotron" style="background: #A9D0F5 !important">
-				<!-- Customers Questionnaire -->
-				<div class="row">
-					<div class="col-md-12 text-center">
-						<h2>
-							Folgende Aufträge sind aktuell zu vergeben: <br /> <small>*(Alle Aufträge beziehen sich auf die gemachten Angaben der Kunden und sind ohne gewähr.)</small>
-						</h2>
-						<h:dataTable value="#{offerBean.allOrders}" var="order" class="table table-striped text-left">
-							<h:column>
-								<f:facet name="header">Auftragsnummer:</f:facet>#{order.id}
-							</h:column>
-							<h:column>
-								<f:facet name="header">Zu öffnen ist:</f:facet>
-								<h:graphicImage library="resources" rendered="#{order.homeOrCar.equals('home')}" styleClass="resizeImagesAsIcons" value="/resources/img/icons/home-2.png" alt="Haustür" />
-								<h:graphicImage library="resources" rendered="#{order.homeOrCar.equals('car')}" styleClass="resizeImagesAsIcons" value="/resources/img/icons/transport-1.png" alt="Auto" />
-								<h:graphicImage library="resources" rendered="#{order.homeOrCar.equals('garage')}" styleClass="resizeImagesAsIcons" value="/resources/img/icons/vehicle.png" alt="Garage" />
-							</h:column>
-							<h:column>
-								<f:facet name="header">Schlüssel vorhanden:</f:facet>
-								<span class="#{order.keyNotAvailable ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'}"></span>
-							</h:column>
-							<h:column>
-								<f:facet name="header">Tür ist aus:</f:facet>
-								<h:graphicImage library="resources" rendered="#{order.door.equals('iron')}" styleClass="resizeImagesAsIcons" value="/resources/img/icons/iron-man.png" alt="Stahl" />
-								<h:graphicImage library="resources" rendered="#{order.door.equals('wooden')}" styleClass="resizeImagesAsIcons" value="/resources/img/icons/chopped-log.png" alt="Holz" />
-								<h:graphicImage library="resources" rendered="#{order.door.equals('normal')}" styleClass="resizeImagesAsIcons" value="/resources/img/icons/exit-1.png" alt="Normal" />
-							</h:column>
-							<h:column>
-								<f:facet name="header">Express erwünscht:</f:facet>
+		<div class="jumbotron" style="background: #D0F5A9 !important">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<h2>
+						Folgende Aufträge sind aktuell zu vergeben: <br /> <small>*(Alle Aufträge beziehen sich auf die gemachten Angaben der Kunden und sind ohne Gewähr.)</small>
+					</h2>
 
-								<span class="#{order.express ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'}"></span>
-							</h:column>
-							<h:column>
-								<f:facet name="header">Adresse:</f:facet>
-								<h:dataTable value="#{order.adress}" var="adress" class="table table-striped text-left">
-									<h:column>
-										<f:facet name="header">Sraße / Hausnr.: </f:facet>#{adress.street} #{adress.streetnumber}  
-			    					</h:column>
-									<h:column>
-										<f:facet name="header">PLZ / Ort</f:facet>#{adress.postcode} #{adress.country}
-			    					</h:column>
-								</h:dataTable>
-							</h:column>
-							<h:column>
-								<f:facet name="header">Aktionen:</f:facet>
-								<h:link class="btn btn-primary btn-xs" rendered="#{not offerBean.checkIfLoggedInUserAlreadySubmitTender(order)}" outcome="./submitTender.xhtml" value="Angebot abgeben">
-									<f:param name="orderID" value="#{order.id}"></f:param>
-								</h:link>
-								<h:link class="btn btn-info btn-xs" rendered="#{offerBean.checkIfLoggedInUserAlreadySubmitTender(order) and not offerBean.checkIfOfferAlreadyAccepted(order)}" outcome="./submitTender.xhtml"
-									value="Angebot bearbeiten">
-									<f:param name="orderID" value="#{order.id}"></f:param>
-								</h:link>
-								<h:commandButton value="Angebot stornieren" class="btn btn-danger btn-xs"
-									rendered="#{offerBean.checkIfLoggedInUserAlreadySubmitTender(order)  and not offerBean.checkIfOfferAlreadyAccepted(order)}" action="#{offerBean.deleteOffer(order)}" />
-								<h:graphicImage library="resources" rendered="#{offerBean.checkIfOfferAlreadyAccepted(order)}" styleClass="resizeImagesAsIcons" value="/resources/img/icons/agreement.png"
-									alt="Angebot akzeptiert" />
-							</h:column>
-						</h:dataTable>
+					<table th:each="order, rowStat : ${orders}" class="table table-striped">
 
-					</div>
+						<thead>
+							<tr>
+								<th>Auftragsnummer:</th>
+								<th>Zu öffnen is:</th>
+								<th>Schlüssel vorhanden:</th>
+								<th>Tür ist aus:</th>
+								<th>Express erwünscht:</th>
+								<th>Adress Informationen:</th>
+								<th>Aktionen:</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<tr>
+
+								<td><span class="form-control-static" th:text="${order.id}"></span></td>
+								<td><img th:if="${order.homeOrCar=='garage'}" src="img/icons/vehicle.png" /> <img th:if="${order.homeOrCar=='home'}" src="img/icons/home-2.png" /> <img th:if="${order.homeOrCar=='car'}"
+									src="img/icons/transport-1.png" /></td>
+								<td><span th:if="${not order.keyNotAvailable}" class="glyphicon glyphicon-ok"></span> <span th:if="${order.keyNotAvailable}" class="glyphicon glyphicon-remove"></span></td>
+								<td><img th:if="${order.door=='iron'}" src="img/icons/iron-man.png" /> <img th:if="${order.door=='wooden'}" src="img/icons/chopped-log.png" /> <img th:if="${order.door=='normal'}"
+									src="img/icons/exit-1.png" /></td>
+								<td><span th:if="${not order.express}" class="glyphicon glyphicon-remove"></span> <span th:if="${order.express}" class="glyphicon glyphicon-ok"></span></td>
+								<td>
+									<table th:unless="${#lists.isEmpty(@registerClient.getAdresses(__${order.userid}__))}" class="table table-striped">
+										<thead>
+											<tr>
+												<th>Straße / Hausnummer:</th>
+												<th>PLZ / Ort:</th>
+											</tr>
+										</thead>
+										<tbody th:each="adress, rowStat : ${@registerClient.getAdresses(__${order.userid}__)}">
+											<tr>
+												<td><span class="form-control-static" th:text="${adress.street +' / '+ adress.streetnumber}"></span></td>
+												<td><span class="form-control-static" th:text="${adress.postcode +' / '+ adress.country}"></span></td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+
+								<td><form th:action="formQuotation.html" th:object="${order}" th:method="post" role="form">
+										<input type="hidden" th:value="${order.id}" name="orderid" />
+										<button class="btn btn-primary btn-xs" name="action" th:value="submitTender" th:if="${not @quotationService.allreadyTendered(__${order.id}__,1)}">Angebot abgeben</button>
+										<button class="btn btn-info btn-xs" name="action" th:value="editTender" th:if="${@quotationService.tenderCancelOrEditable(1,1)}">Angebot bearbeiten</button>
+										<button class="btn btn-danger btn-xs" name="action" th:value="cancelTender" th:if="${@quotationService.tenderCancelOrEditable(1,1)}">Angebot stornieren</button>
+										<img th:if="${@quotationService.isTenderAccepted(1,1)}" src="img/icons/agreement.png" />
+									</form></td>
+
+							</tr>
+						</tbody>
+					</table>
+
 				</div>
 			</div>
-		</form>
+		</div>
 	</div>
 </body>
 </html>
