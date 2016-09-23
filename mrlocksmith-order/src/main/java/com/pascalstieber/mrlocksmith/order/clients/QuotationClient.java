@@ -63,9 +63,9 @@ public class QuotationClient {
 	return url;
     }
 
-    public Quotation findAllQuotationsForOrder(long userid) {
+    public Quotation[] findAllQuotationsForOrder(long userid) {
 	try {
-	    Quotation quotation = restTemplate.getForObject(getRegisterURL() + "findAllQuotationsForOrder/" + userid, Quotation.class);
+	    Quotation[] quotation = restTemplate.getForObject(getRegisterURL() + "findAllQuotationsForOrder/" + userid, Quotation[].class);
 	    return quotation;
 	} catch (RestClientException e) {
 	    log.error(e.toString());

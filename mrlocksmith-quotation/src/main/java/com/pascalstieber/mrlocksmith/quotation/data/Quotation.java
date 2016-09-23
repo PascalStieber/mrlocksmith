@@ -6,11 +6,17 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.Transient;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.pascalstieber.mrlocksmith.quotation.web.QuotationController;
 
 @Entity
 public class Quotation {
@@ -18,31 +24,30 @@ public class Quotation {
     @Id
     @GeneratedValue
     private long id;
-
+    @Transient
+    private final Logger log = LoggerFactory.getLogger(QuotationController.class);
     private boolean accepted = false;
     private Date acceptedAt;
 
     private long orderid;
     private long contractorid;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "quotation", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true)
     @OrderBy("id DESC")
+    @JoinColumn(name = "quotation")
     private List<Item> items = new ArrayList<>();
+
+
+    public List<Item> getItems() {
+        return items;
+    }
 
     public void setItems(List<Item> items) {
         this.items = items;
     }
 
-    public List<Item> getItems() {
-	return items;
-    }
-
     public void addItem(Item items) {
 	this.items.add(items);
-    }
-
-    public void removeItem(Item pItem) {
-	this.items.remove(pItem);
     }
 
     public boolean isAccepted() {

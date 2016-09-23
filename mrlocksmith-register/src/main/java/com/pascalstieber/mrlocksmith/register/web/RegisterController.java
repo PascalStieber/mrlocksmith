@@ -55,13 +55,12 @@ public class RegisterController {
 	List<Adress> adressList = userRepository.getUserAdressesByUserId(id);
 	return adressList;
     }
-    
+
     @RequestMapping(value = "/findAdressById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Adress getAdressById(@PathVariable("id") long id) {
 	Adress adress = adressRepository.findOne(id);
 	return adress;
     }
-
 
     @RequestMapping(value = "/registerContractor.html", method = RequestMethod.GET)
     public ModelAndView addContractor() {
@@ -95,7 +94,7 @@ public class RegisterController {
 	    return new ModelAndView("registerCustomer");
 	}
 	user = userRepository.save(user);
-	
+
 	if (user.getOrderid() != 0) {
 	    Adress adress = userRepository.getOneUserAdressesByUseridAndOrderid(user.getId(), user.getOrderid());
 	    String url = REDIRECT_ON_HOST + "order/associateUserAndAdressToOrder.html?orderid=%s&userid=%s&adressid=%s";
@@ -114,7 +113,7 @@ public class RegisterController {
 	}
 	contractor.setRole("contractor");
 	contractor = userRepository.save(contractor);
-	return new ModelAndView("/quotation/");
+	return new ModelAndView(REDIRECT_ON_HOST + "quotation/");
     }
 
 }

@@ -33,14 +33,15 @@
 							<tr th:each="item, rowStat : *{items}" class="table table-striped">
 								<td><input type="text" th:field="*{items[__${rowStat.index}__].name}" class="form-control" id="name"/></td>
 								<td><input type="text" th:field="*{items[__${rowStat.index}__].value}" class="form-control" id="value"/></td>
-								<td><button name="action" th:value="removeItem" th:formaction="'deleteItem/' + ${item.id}" class="btn btn-danger btn-xs">x</button>
+								<td><button th:formaction="removeItem.html" th:formmethod="post" name="removeItemId" th:value="*{items[__${rowStat.index}__].id}" class="btn btn-danger btn-xs">x</button>
 								</td>
 							</tr>
 						</tbody>
 					</table>
 					</div>
-					<input type="hidden" th:value="${quotation.id}" name="quotationid" />
-					<input type="hidden" th:value="${quotation.orderid}" name="orderid" />
+					<input type="hidden" th:field="${quotation.id}" name="quotationid" />
+					<input type="hidden" th:field="${quotation.orderid}" name="orderid" />
+					<input type="hidden" th:field="${quotation.contractorid}" name="contractorid" />
 					<button class="btn btn-success btn-xs" th:value="addItem" name="action">+</button>
 					<button class="btn btn-warning btn-xs" th:value="saveTender" name="action">Angebot speichern</button>
 				</div>

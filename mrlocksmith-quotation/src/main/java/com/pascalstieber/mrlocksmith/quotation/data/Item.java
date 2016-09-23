@@ -1,10 +1,8 @@
 package com.pascalstieber.mrlocksmith.quotation.data;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Pattern;
 
@@ -18,8 +16,7 @@ public class Item {
     private long id;
 
 
-    @ManyToOne(cascade=CascadeType.PERSIST)
-    @JoinColumn(name="quotationid")
+    @ManyToOne
     private Quotation quotation;
 
     @NotEmpty(message="Der Posten muss gekennzeichnet und darf nicht leer sein!")

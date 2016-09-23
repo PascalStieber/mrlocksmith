@@ -20,57 +20,64 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">Zu Ihrer Person:</div>
 								<div class="panel-body">
-										<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-											<li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
-										</ul>
+									<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+										<li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+									</ul>
 									<div class="form-group">
 										<label for="vorname">Vorname:</label> <input type="text" th:field="*{firstname}" class="form-control" id="vorname" /> <label for="nachname">Nachname:</label> <input type="text"
 											th:field="*{surname}" class="form-control" id="nachname" />
 									</div>
 									<div class="form-group">
-										<label for="email">Email:</label> <input type="text" th:field="*{email}" class="form-control" id="email" /> <label for="telefonnummer">Telefonnr.:</label> <input type="text"
-											th:field="*{phonenumber}" class="form-control" id="telefonnummer" /> <label for="password">Passwort:</label> <input type="password" th:field="*{password}" class="form-control"
+										<label for="telefonnummer">Telefonnr.:</label> <input type="text"
+											th:field="*{phonenumber}" class="form-control" id="telefonnummer" /> 
+											<label for="email">Email:</label> <input type="text" th:field="*{email}" class="form-control" id="email" />
+											
+											<label for="password">Passwort:</label> <input type="password" th:field="*{password}" class="form-control"
 											id="password" />
 									</div>
 								</div>
 							</div>
-							<!-- 							<div class="panel panel-default"> -->
-							<!-- 								<div class="panel-heading">Ihre Adresse:</div> -->
-							<!-- 								<div class="panel-body"> -->
-							<!-- 									<div class="form-group"> -->
-							<!-- 										<div class="row"> -->
-							<!-- 											<div class="col-md-9"> -->
-							<!-- 												<label for="strasse">Strasse:</label> <input type="text" th:field="*{street}" class="form-control" id="strasse" /> -->
-							<!-- 											</div> -->
-							<!-- 											<div class="col-md-3"> -->
-							<!-- 												<label for="hausnummer">Hausnr.:</label> <input type="text" th:field="*{streetnumber}" class="form-control" id="hausnummer" /> -->
-							<!-- 											</div> -->
-							<!-- 										</div> -->
-							<!-- 										<div class="row"> -->
-							<!-- 											<div class="col-md-4"> -->
-							<!-- 												<label for="plz">Plz.:</label> <input type="text" th:field="*{postcode}" class="form-control" id="plz" /> -->
-							<!-- 											</div> -->
-							<!-- 											<div class="col-md-8"> -->
-							<!-- 												<label for="ort">Ort:</label> <input type="text" th:field="*{country}" class="form-control" id="ort" /> -->
-							<!-- 											</div> -->
-							<!-- 										</div> -->
-							<!-- 									</div> -->
-							<!-- 								</div> -->
-							<!-- 							</div> -->
+							<div th:unless="${#lists.isEmpty(contractor.adresses)}">
+								<div th:each="adress, rowStat : *{adresses}">
+									<div class="panel panel-default">
+										<div class="panel-heading">Ihre Adresse:</div>
+										<div class="panel-body">
+											<div class="form-group">
+												<div class="row">
+													<div class="col-md-9">
+														<label for="strasse">Strasse:</label> <input type="text" th:field="*{adresses[__${rowStat.index}__].street}" class="form-control" id="strasse" />
+													</div>
+													<div class="col-md-3">
+														<label for="hausnummer">Hausnr.:</label> <input type="text" th:field="*{adresses[__${rowStat.index}__].streetnumber}" class="form-control" id="hausnummer" />
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-4">
+														<label for="plz">Plz.:</label> <input type="text" th:field="*{adresses[__${rowStat.index}__].postcode}" class="form-control" id="plz" />
+													</div>
+													<div class="col-md-8">
+														<label for="ort">Ort:</label> <input type="text" th:field="*{adresses[__${rowStat.index}__].country}" class="form-control" id="ort" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-					<!-- 					<div class="col-md-6"> -->
-					<!-- 						<div class="panel panel-default"> -->
-					<!-- 							<div class="panel-heading">Angaben zum Unternehmen:</div> -->
-					<!-- 							<div class="panel-body"> -->
-					<!-- 								<div class="form-group"> -->
-					<!-- 									<label for="companyname">Firmenname:</label> <input type="text" th:field="*{companyname}" class="form-control" id="companyname" /> <label for="holderfirstname">Vorname d. -->
-					<!-- 										Geschäftsführung:</label> <input type="text" th:field="*{holderfirstname}" class="form-control" id="holderfirstname" /> <label for="holdersurname">Nachname d. Geschäftsführung:</label> <input -->
-					<!-- 										type="text" th:field="*{holdersurname}" class="form-control" id="holdersurname" /> -->
-					<!-- 								</div> -->
-					<!-- 							</div> -->
-					<!-- 						</div> -->
-					<!-- 					</div> -->
+					<div class="col-md-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">Angaben zum Unternehmen:</div>
+							<div class="panel-body">
+								<div class="form-group">
+									<label for="companyname">Firmenname:</label> <input type="text" th:field="*{companyname}" class="form-control" id="companyname" /> <label for="holderfirstname">Vorname d.
+										Geschäftsführung:</label> <input type="text" th:field="*{holderfirstname}" class="form-control" id="holderfirstname" /> <label for="holdersurname">Nachname d. Geschäftsführung:</label> <input
+										type="text" th:field="*{holdersurname}" class="form-control" id="holdersurname" />
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<input type="submit" class="btn btn-success" value="Anmelden!" />
 			</div>
