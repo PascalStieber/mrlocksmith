@@ -20,7 +20,7 @@
 						<h2>Ihre letzten Anfragen:</h2>
 						<small></small>
 						<div th:unless="${#lists.isEmpty(orders)}">
-							<div th:each="order, rowStat : ${orders}">
+							<div th:each="order, orderStat : ${orders}">
 								<div class="row">
 									<div class="col-md-4 text-center">
 										<div class="panel panel-default">
@@ -47,7 +47,7 @@
 												</div>
 												<hr />
 												<div th:unless="${#lists.isEmpty(@registerClient.getAdresses(__${order.userid}__))}">
-													<div th:each="adress, rowStat : ${@registerClient.getAdresses(__${order.userid}__)}">
+													<div th:each="adress, adressStat : ${@registerClient.getAdresses(__${order.userid}__)}">
 														<div class="row">
 															<div class="col-md-6">
 																<label for="strasse">Strasse:</label> <span class="form-control-static" th:text="${adress.street}"></span>
@@ -127,7 +127,7 @@
 													<th>Angebot stellt sich zusammen aus:</th>
 												</tr>
 											</thead>
-											<tbody th:each="quotation, rowStat : ${@quotationClient.findAllQuotationsForOrder(__${order.id}__)}">
+											<tbody th:each="quotation, quotationStat : ${@quotationClient.findAllQuotationsForOrder(__${order.id}__)}">
 												<tr>
 													<td><span class="form-control-static" th:text="${quotation.id}" id="quotationnumber"></span></td>
 													<td><span class="form-control-static" th:text="${@registerClient.getContractor(__${quotation.contractorid}__).companyname}" id="companyname"></span></td>
@@ -138,16 +138,18 @@
 																	<th>Betrag:</th>
 																</tr>
 															</thead>
-															<tbody th:each="item, itemStat : ${quotation.items}">
+															<tbody th:each="item, itemStat : ${@quotationClient.findAllItemsByQuotationId(__${quotation.id}__)}">
 																<tr>
 																	<td><span class="form-control-static" th:text="${item.name}" id="itemname"></span></td>
 																	<td><span class="form-control-static" th:text="${item.value}" id="itemvalue"></span></td>
-																	<td><button class="btn btn-success btn-xs">
-																			Für<span> x</span>€ akzeptieren
-																		</button></td>
+																	<td></td>
 																</tr>
 															</tbody>
-														</table></td>
+
+														</table>
+														<button class="btn btn-success btn-xs" th:formaction="acceptQuotation.html" th:formmethod="post" name="acceptQuotation" th:value="${quotation.id}" >
+															Für<span th:text="${@orderService.getQuotationSum(__${quotation.id}__)}"  > x</span>€ akzeptieren
+														</button></td>
 												</tr>
 											</tbody>
 										</table>

@@ -69,6 +69,8 @@ public class OrderController {
 	order.setKeyNotAvailable(keyNotAvailable);
 	return new ModelAndView("questionnaireHome2", "order", order);
     }
+    
+    
 
     @RequestMapping(value = "/questionnaireHome2Form.html", method = RequestMethod.POST, params = "forward=forward")
     public ModelAndView postQuestionnaireHome22(OrderEntity order, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
@@ -144,6 +146,13 @@ public class OrderController {
     public ModelAndView findAllOrders() {
 	Iterable<OrderEntity> orders = orderRepository.findAll();
 	return new ModelAndView("showCustomersQuotations", "orders", orders);
+    }
+    
+    @RequestMapping(value = "/acceptQuotation.html", method = RequestMethod.POST)
+    public ModelAndView acceptQuotation(OrderEntity order, BindingResult bindingResult,
+	    HttpServletRequest httpServletRequest) {
+	
+	return new ModelAndView("showCustomersQuotations", "order", order);
     }
     
     @RequestMapping(value = "/findOrderByUserid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

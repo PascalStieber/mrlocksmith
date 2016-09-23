@@ -25,15 +25,13 @@ public class Quotation {
     @Id
     @GeneratedValue
     private long id;
-    @Transient
-    private final Logger log = LoggerFactory.getLogger(QuotationController.class);
     private boolean accepted = false;
     private Date acceptedAt;
 
     private long orderid;
     private long contractorid;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true)
     @OrderBy("id DESC")
     @JoinColumn(name = "quotation")
     private List<Item> items = new ArrayList<>();

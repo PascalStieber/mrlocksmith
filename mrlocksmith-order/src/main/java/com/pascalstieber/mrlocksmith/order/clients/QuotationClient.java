@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pascalstieber.mrlocksmith.order.data.Adress;
+import com.pascalstieber.mrlocksmith.order.data.Item;
 import com.pascalstieber.mrlocksmith.order.data.Quotation;
 import com.pascalstieber.mrlocksmith.order.data.User;
 
@@ -59,13 +60,27 @@ public class QuotationClient {
 	} else {
 	    url = "http://" + quotationServiceHost + ":" + quotationServicePort + "/quotation/";
 	}
-	log.trace("Register: URL {} ", url);
+	log.trace("Quotation: URL {} ", url);
 	return url;
     }
 
-    public Quotation[] findAllQuotationsForOrder(long userid) {
+    public List<Item> findAllItemsByQuotationId(long quotationid) {
 	try {
-	    Quotation[] quotation = restTemplate.getForObject(getRegisterURL() + "findAllQuotationsForOrder/" + userid, Quotation[].class);
+	    List<Item> items = restTemplate.getForObject(getRegisterURL() + "findAllItemsByQuotationId/" + quotationid, List.class);
+	    log.trace(">>>> rest aufruf:" + getRegisterURL() + "findAllItemsByQuotationId/" + quotationid);
+	    log.trace(">>>>Anzahl ermittelter items: " + items.size());
+	    return items;
+	} catch (RestClientException e) {
+	    log.error(e.toString());
+	}
+	return null;
+    }
+
+    public List<Quotation> findAllQuotationsForOrder(long orderid) {
+	try {
+	    List<Quotation> quotation = restTemplate.getForObject(getRegisterURL() + "findAllQuotationsForOrder/" + orderid, List.class);
+	    log.trace(">>>>Anzahl ermittelter quotations: " + quotation.size());
+	    log.trace(">>>> rest aufruf:" + getRegisterURL() + "findAllQuotationsForOrder/" + orderid);
 	    return quotation;
 	} catch (RestClientException e) {
 	    log.error(e.toString());
@@ -81,5 +96,15 @@ public class QuotationClient {
 	converter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
 	converter.setObjectMapper(mapper);
 	return new RestTemplate(Collections.<HttpMessageConverter<?>> singletonList(converter));
+    }
+
+    public String getQuotationSum(long quotationid) {
+	try {
+	    String sum = restTemplate.getForObject(getRegisterURL() + "getSumOfQuotation/" + quotationid, String.class);
+	    return sum;
+	} catch (RestClientException e) {
+	    log.error(e.toString());
+	}
+	return "";
     }
 }

@@ -63,6 +63,18 @@ public class QuotationController {
 	List<Quotation> quotation = quotationRepository.getAllQuotationsForOrder(id);
 	return quotation;
     }
+    
+    @RequestMapping(value = "/getSumOfQuotation/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String getSumOfQuotation(@PathVariable("id") long id) {
+	String sum = itemRepository.getSumOfQuotation(id);
+	return sum;
+    }
+    
+    @RequestMapping(value = "/findAllItemsByQuotationId/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<Item> findAllItemsByQuotationId(@PathVariable("id") long id) {
+	List<Item> items = itemRepository.findByQuotation(quotationRepository.findOne(id));
+	return items;
+    }
 
     @RequestMapping(value = "/formQuotation.html", method = RequestMethod.POST, params = "action=submitTender")
     public ModelAndView submitTender(HttpServletRequest httpServletRequest) {
