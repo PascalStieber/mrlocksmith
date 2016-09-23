@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -32,7 +33,7 @@ public class Quotation {
     private long orderid;
     private long contractorid;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
     @OrderBy("id DESC")
     @JoinColumn(name = "quotation")
     private List<Item> items = new ArrayList<>();

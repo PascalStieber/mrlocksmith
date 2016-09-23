@@ -17,6 +17,6 @@ public interface QuotationRepository extends PagingAndSortingRepository<Quotatio
     @Query("SELECT q.items FROM Quotation q WHERE q.id = :id")
     public List<Item> getItemsByQuotationId(@Param("id") long id);
     
-    @Query("SELECT q FROM Quotation q WHERE q.orderid = :orderid")
+    @Query("SELECT q, q.items FROM Quotation q WHERE q.orderid = :orderid")
     public List<Quotation> getAllQuotationsForOrder(@Param("orderid") long orderid);
 }

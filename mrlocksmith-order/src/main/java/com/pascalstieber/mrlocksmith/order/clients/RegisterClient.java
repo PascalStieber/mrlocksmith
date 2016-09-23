@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pascalstieber.mrlocksmith.order.data.Adress;
+import com.pascalstieber.mrlocksmith.order.data.Contractor;
 import com.pascalstieber.mrlocksmith.order.data.User;
 
 @Component
@@ -66,6 +67,15 @@ public class RegisterClient {
 	try {
 	    User user = restTemplate.getForObject(getRegisterURL() + "findUserById/" + userid, User.class);
 	    return user;
+	} catch (RestClientException e) {
+	    log.error(e.toString());
+	}
+	return null;
+    }
+    public User getContractor(long userid) {
+	try {
+	    Contractor contractor= restTemplate.getForObject(getRegisterURL() + "findUserById/" + userid, Contractor.class);
+	    return contractor;
 	} catch (RestClientException e) {
 	    log.error(e.toString());
 	}

@@ -15,7 +15,6 @@ public class Item {
     @GeneratedValue
     private long id;
 
-
     @ManyToOne
     private Quotation quotation;
 
