@@ -148,7 +148,7 @@
 
 														</table>
 														<button class="btn btn-success btn-xs" th:formaction="acceptQuotation.html" th:formmethod="post" name="acceptQuotation" th:value="${quotation.id}" >
-															Für<span th:text="${@orderService.getQuotationSum(__${quotation.id}__)}"  > x</span>€ akzeptieren
+															Für <span th:text="${@orderService.getQuotationSum(__${quotation.id}__)}"  > x</span> € akzeptieren
 														</button></td>
 												</tr>
 											</tbody>

@@ -12,6 +12,8 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
 
     List<Item> findByQuotation(@Param("quotation") Quotation quotation);
     
-    @Query("SELECT SUM(i.value) FROM item i WHERE i.quotation = :quotation")
-    public String getSumOfQuotation(@Param("quotation") long quotation);
+    @Query("SELECT SUM(i.value) FROM Item i WHERE i.quotation = :quotation")
+    public String getSumOfQuotation(@Param("quotation") Quotation quotation);
+    
+    
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pascalstieber.mrlocksmith.order.clients.QuotationClient;
 import com.pascalstieber.mrlocksmith.order.clients.RegisterClient;
 import com.pascalstieber.mrlocksmith.order.data.OrderEntity;
 import com.pascalstieber.mrlocksmith.order.data.OrderRepository;
@@ -21,23 +22,25 @@ import com.pascalstieber.mrlocksmith.order.data.OrderRepository;
 public class OrderController {
 
     private static final String REDIRECT_ON_HOST = "redirect:http://192.168.99.100:8080/";
-    
+
     private OrderRepository orderRepository;
     private RegisterClient registerClient;
-    
+    private QuotationClient quotationClient;
+
     @Autowired
-    public OrderController(OrderRepository orderRepo, RegisterClient registerClient) {
+    public OrderController(OrderRepository orderRepo, RegisterClient registerClient, QuotationClient quotationClient) {
 	this.orderRepository = orderRepo;
 	this.registerClient = registerClient;
+	this.quotationClient = quotationClient;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() {
 	OrderEntity order = new OrderEntity();
-	
+
 	return new ModelAndView("questionnaire1", "order", order);
     }
-    
+
     // auswahl button ('car' || 'home' || 'garage') wurde gedrueckt
     @RequestMapping(value = "/questionnaire1Form.html", method = RequestMethod.POST)
     public ModelAndView postQuestionnaire1(OrderEntity order, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
@@ -69,8 +72,6 @@ public class OrderController {
 	order.setKeyNotAvailable(keyNotAvailable);
 	return new ModelAndView("questionnaireHome2", "order", order);
     }
-    
-    
 
     @RequestMapping(value = "/questionnaireHome2Form.html", method = RequestMethod.POST, params = "forward=forward")
     public ModelAndView postQuestionnaireHome22(OrderEntity order, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
@@ -80,7 +81,7 @@ public class OrderController {
 	order.setKeyNotAvailable(keyNotAvailable);
 	return new ModelAndView("questionnaireHome3", "order", order);
     }
-    
+
     @RequestMapping(value = "/questionnaireHome3Form.html", method = RequestMethod.POST)
     public ModelAndView postQuestionnaireHome3(OrderEntity order, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
 	String homeOrCar = httpServletRequest.getParameter("homeOrCar");
@@ -92,7 +93,6 @@ public class OrderController {
 	return new ModelAndView("questionnaireHome3", "order", order);
     }
 
-    
     @RequestMapping(value = "/questionnaireHome3Form.html", method = RequestMethod.POST, params = "forward=forward")
     public ModelAndView postQuestionnaireHome33(OrderEntity order, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
 	String homeOrCar = httpServletRequest.getParameter("homeOrCar");
@@ -103,7 +103,6 @@ public class OrderController {
 	order.setDoor(door);
 	return new ModelAndView("questionnaireExpress", "order", order);
     }
-    
 
     @RequestMapping(value = "/questionnaireExpressForm.html", method = RequestMethod.POST)
     public ModelAndView postQuestionnaireExpress(OrderEntity order, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
@@ -118,7 +117,6 @@ public class OrderController {
 	return new ModelAndView("questionnaireExpress", "order", order);
     }
 
-    
     @RequestMapping(value = "/questionnaireExpressForm.html", method = RequestMethod.POST, params = "forward=forward")
     public ModelAndView postQuestionnaireExpress2(OrderEntity order, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
 	String homeOrCar = httpServletRequest.getParameter("homeOrCar");
@@ -130,37 +128,38 @@ public class OrderController {
 	boolean express = Boolean.parseBoolean(httpServletRequest.getParameter("express"));
 	order.setKeyNotAvailable(express);
 	order = orderRepository.save(order);
-	return new ModelAndView(REDIRECT_ON_HOST + "register/registerCustomerWithOrder.html?orderid="+ order.getId());
+	return new ModelAndView(REDIRECT_ON_HOST + "register/registerCustomerWithOrder.html?orderid=" + order.getId());
     }
-    
+
     @RequestMapping(value = "/associateUserAndAdressToOrder.html", method = RequestMethod.GET)
-    public ModelAndView associateUserToOrder(@RequestParam("orderid") long orderid, @RequestParam("userid") long userid, @RequestParam("adressid") long adressid) {
+    public ModelAndView associateUserToOrder(@RequestParam("orderid") long orderid, @RequestParam("userid") long userid,
+	    @RequestParam("adressid") long adressid) {
 	OrderEntity order = orderRepository.findOne(orderid);
 	order.setUserid(userid);
 	order.setAdressid(adressid);
 	orderRepository.save(order);
 	return new ModelAndView("showCustomersQuotations");
     }
-    
+
     @RequestMapping(value = "/showCustomersQuotations.html", method = RequestMethod.GET)
     public ModelAndView findAllOrders() {
 	Iterable<OrderEntity> orders = orderRepository.findAll();
 	return new ModelAndView("showCustomersQuotations", "orders", orders);
     }
-    
+
     @RequestMapping(value = "/acceptQuotation.html", method = RequestMethod.POST)
-    public ModelAndView acceptQuotation(OrderEntity order, BindingResult bindingResult,
-	    HttpServletRequest httpServletRequest) {
-	
+    public ModelAndView acceptQuotation(OrderEntity order, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
+	long quotationid = Long.parseLong(httpServletRequest.getParameter("acceptQuotation"));
+	quotationClient.acceptQuotation(quotationid);
 	return new ModelAndView("showCustomersQuotations", "order", order);
     }
-    
+
     @RequestMapping(value = "/findOrderByUserid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody OrderEntity findOrder(@PathVariable("id") long id) {
 	OrderEntity order = orderRepository.findByUserid(id);
 	return order;
     }
-    
+
     @RequestMapping(value = "/findOrderByOrderid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody OrderEntity findOrderByOrderid(@PathVariable("id") long id) {
 	OrderEntity order = orderRepository.findOne(id);
@@ -172,6 +171,5 @@ public class OrderController {
 	Iterable<OrderEntity> order = orderRepository.findAll();
 	return order;
     }
-    
 
 }

@@ -1,6 +1,7 @@
 package com.pascalstieber.mrlocksmith.quotation.web;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -66,7 +67,7 @@ public class QuotationController {
     
     @RequestMapping(value = "/getSumOfQuotation/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody String getSumOfQuotation(@PathVariable("id") long id) {
-	String sum = itemRepository.getSumOfQuotation(id);
+	String sum = itemRepository.getSumOfQuotation(quotationRepository.findOne(id));
 	return sum;
     }
     
@@ -76,6 +77,15 @@ public class QuotationController {
 	return items;
     }
 
+    @RequestMapping(value = "/acceptQuotation/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Boolean acceptQuotation(@PathVariable("id") long id) {
+	Quotation quotation = quotationRepository.findOne(id);
+	quotation.setAccepted(true);
+	quotation.setAcceptedAt(new Date());
+	quotationRepository.save(quotation);
+	return true;
+    }
+    
     @RequestMapping(value = "/formQuotation.html", method = RequestMethod.POST, params = "action=submitTender")
     public ModelAndView submitTender(HttpServletRequest httpServletRequest) {
 	long orderid = Long.parseLong(httpServletRequest.getParameter("orderid"));

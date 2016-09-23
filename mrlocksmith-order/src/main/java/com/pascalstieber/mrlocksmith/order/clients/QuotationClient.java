@@ -98,6 +98,14 @@ public class QuotationClient {
 	return new RestTemplate(Collections.<HttpMessageConverter<?>> singletonList(converter));
     }
 
+    public void acceptQuotation(long quotationid){
+	try {
+	    restTemplate.getForObject(getRegisterURL() + "acceptQuotation/" + quotationid, Boolean.class);
+	} catch (RestClientException e) {
+	    log.error(e.toString());
+	}
+    }
+
     public String getQuotationSum(long quotationid) {
 	try {
 	    String sum = restTemplate.getForObject(getRegisterURL() + "getSumOfQuotation/" + quotationid, String.class);
