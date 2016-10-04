@@ -34,6 +34,7 @@ public class User {
     @Size(min = 2, max = 30, message = "Der Nachname muss min. 3 und darf max. 30 Zeichen lang sein.")
     private String surname;
 
+    private boolean enabled = true;
     private long orderid;
 
     @NotEmpty(message = "Email darf nicht leer sein!")
@@ -139,6 +140,14 @@ public class User {
 
     public void setOrderid(long orderid) {
 	this.orderid = orderid;
+    }
+
+    public boolean isEnabled() {
+	return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+	this.enabled = enabled;
     }
 
     @Override

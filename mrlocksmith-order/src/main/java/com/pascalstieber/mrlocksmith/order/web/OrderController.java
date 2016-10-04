@@ -1,12 +1,19 @@
 package com.pascalstieber.mrlocksmith.order.web;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +29,8 @@ import com.pascalstieber.mrlocksmith.order.data.OrderRepository;
 public class OrderController {
 
     private static final String REDIRECT_ON_HOST = "redirect:http://192.168.99.100:8080/";
-
+    private final Logger log = LoggerFactory.getLogger(OrderController.class);
+    
     private OrderRepository orderRepository;
     private RegisterClient registerClient;
     private QuotationClient quotationClient;
@@ -32,6 +40,13 @@ public class OrderController {
 	this.orderRepository = orderRepo;
 	this.registerClient = registerClient;
 	this.quotationClient = quotationClient;
+    }
+
+
+    @RequestMapping(value = "/auth2", method = RequestMethod.GET)
+    public String authorization2( OAuth2Authentication auth, Principal currentUser) {
+	log.trace(">>>>clientid"+auth.getPrincipal().toString());
+	return "redirect:http://192.168.178.26:8585/login";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)

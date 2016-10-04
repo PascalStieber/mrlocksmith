@@ -12,4 +12,6 @@ public class ZuulServiceApplication {
 	new SpringApplicationBuilder(ZuulServiceApplication.class).web(true).run(args);
     }
     
+
+
 }

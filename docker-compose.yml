@@ -17,7 +17,11 @@ order:
 quotation:
   build: mrlocksmith-quotation
   links:
-  - eureka  
+  - eureka
+#authorization:
+#  build: mrlocksmith-server-authorization
+#  links:
+#  - eureka
 zuul:
   build: mrlocksmith-server-zuul
   links:
