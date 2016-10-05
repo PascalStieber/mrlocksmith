@@ -14,14 +14,16 @@ order:
   build: mrlocksmith-order
   links:
   - eureka
+  - authorization
 quotation:
   build: mrlocksmith-quotation
   links:
   - eureka
-#authorization:
-#  build: mrlocksmith-server-authorization
-#  links:
-#  - eureka
+  - authorization
+authorization:
+  build: mrlocksmith-server-authorization
+  ports:
+  - "8585:8585"
 zuul:
   build: mrlocksmith-server-zuul
   links:

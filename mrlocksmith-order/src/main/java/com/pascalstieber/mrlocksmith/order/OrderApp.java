@@ -33,6 +33,10 @@ public class OrderApp extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
 //	http.antMatcher("/showCustomersQuotations.html").authorizeRequests().antMatchers("/index.html", "/home.html", "/").permitAll().anyRequest().authenticated();
-	http.antMatcher("/**").authorizeRequests().antMatchers("/index.html", "/home.html", "/").permitAll().anyRequest().authenticated();
+	http.antMatcher("/**").authorizeRequests().
+	antMatchers("/","/questionnaire1Form.html","/questionnaireExpress","/img/**").permitAll().
+	anyRequest().authenticated().
+	and().formLogin().defaultSuccessUrl("/acceptQuotation.html").permitAll().
+	and().csrf().disable();
     }
 }
