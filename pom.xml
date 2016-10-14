@@ -20,7 +20,6 @@
 		<module>mrlocksmith-server-turbine</module>
 		<module>mrlocksmith-order</module>
 		<module>mrlocksmith-quotation</module>
-		<module>mrlocksmith-server-authorization</module>
 	</modules>
 
 	<properties>
@@ -36,9 +35,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-	
-
-
-
 </project>
