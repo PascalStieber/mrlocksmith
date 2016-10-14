@@ -34,8 +34,10 @@ public class QuotationService {
 	return true;
     }
 
-    public Boolean tenderCancelOrEditable(long orderid, long contractorid){
-	List<Quotation> quotation = quotationRepository.findByOrderidAndContractorid(orderid, contractorid);
+    public Boolean tenderCancelOrEditable(String orderid, String contractorid){
+	long contractor = Long.parseLong(contractorid);
+	long order = Long.parseLong(orderid);
+	List<Quotation> quotation = quotationRepository.findByOrderidAndContractorid(order, contractor);
 	if(quotation.isEmpty()){
 	    return false;
 	}else if(quotation.get(0).isAccepted() != false){

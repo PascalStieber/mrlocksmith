@@ -16,23 +16,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-	http.authorizeRequests().anyRequest().fullyAuthenticated().and().formLogin().permitAll().and().logout()
-		.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/home").and()
-	// .anonymous().disable()
-	// .csrf().disable()
-	;
-
-	
+	http
+        .authorizeRequests()
+            .anyRequest()
+            .fullyAuthenticated()
+        .and()
+            .formLogin()
+            .permitAll()
+        .and()
+            .logout()
+            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+            .logoutSuccessUrl("/home")
+        .and()
+            .anonymous().disable()
+            .csrf().disable()
+       ;
     }
-
-    // @Override
-    // protected void configure(AuthenticationManagerBuilder auth) throws
-    // Exception {
-    // auth.inMemoryAuthentication()
-    // .withUser("admin").password("admin2").roles("ADMIN", "USER")
-    // .and().withUser("user").password("user2").roles("USER");
-    //
-    // }
 
     @Autowired
     DataSource dataSource;
@@ -43,5 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.authoritiesByUsernameQuery("select email,role from user where email=?");
 
     }
+
 
 }

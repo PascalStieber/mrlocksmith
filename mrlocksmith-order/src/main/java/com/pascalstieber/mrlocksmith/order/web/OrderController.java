@@ -1,19 +1,15 @@
 package com.pascalstieber.mrlocksmith.order.web;
 
-import java.security.Principal;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,12 +38,6 @@ public class OrderController {
 	this.quotationClient = quotationClient;
     }
 
-
-    @RequestMapping(value = "/auth2", method = RequestMethod.GET)
-    public String authorization2( OAuth2Authentication auth, Principal currentUser) {
-	log.trace(">>>>clientid"+auth.getPrincipal().toString());
-	return "redirect:http://192.168.178.26:8585/login";
-    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() {
@@ -153,12 +143,13 @@ public class OrderController {
 	order.setUserid(userid);
 	order.setAdressid(adressid);
 	orderRepository.save(order);
-	return new ModelAndView("showCustomersQuotations");
+	return new ModelAndView(REDIRECT_ON_HOST + "order/showCustomersQuotations.html?userid="+userid);
     }
 
     @RequestMapping(value = "/showCustomersQuotations.html", method = RequestMethod.GET)
-    public ModelAndView findAllOrders() {
-	Iterable<OrderEntity> orders = orderRepository.findAll();
+    public ModelAndView findAllOrdersByCustomers(@RequestParam("userid") long userid, HttpSession session) {
+	session.setAttribute("userid", userid);
+	Iterable<OrderEntity> orders = orderRepository.findByUserid(userid);
 	return new ModelAndView("showCustomersQuotations", "orders", orders);
     }
 
@@ -171,7 +162,7 @@ public class OrderController {
 
     @RequestMapping(value = "/findOrderByUserid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody OrderEntity findOrder(@PathVariable("id") long id) {
-	OrderEntity order = orderRepository.findByUserid(id);
+	OrderEntity order = orderRepository.findByUserid(id).get(0);
 	return order;
     }
 

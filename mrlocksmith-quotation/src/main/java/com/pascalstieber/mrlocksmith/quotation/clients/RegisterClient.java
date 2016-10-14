@@ -63,6 +63,7 @@ public class RegisterClient {
     public User getUser(long userid) {
 	try {
 	    User user = restTemplate.getForObject(getRegisterURL() + "findUserById/" + userid, User.class);
+	    log.trace(">>>findUserById/" + userid);
 	    return user;
 	} catch (RestClientException e) {
 	    log.error(e.toString());

@@ -1,9 +1,8 @@
 package com.pascalstieber.mrlocksmith.quotation.web;
 
-import java.util.Arrays;
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -12,9 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,7 +43,7 @@ public class QuotationController {
     private OrderClient orderClient;
     private QuotationService quotationService;
     private ItemRepository itemRepository;
-
+    
     @Autowired
     public QuotationController(QuotationRepository quotationRepository, RegisterClient registerClient, OrderClient orderClient,
 	    QuotationService quotationService, ItemRepository itemRepository) {
@@ -56,6 +57,34 @@ public class QuotationController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() {
 	List<OrderEntity> allOrders = orderClient.getAllOrders();
+	return new ModelAndView("showAllOrders", "orders", allOrders);
+    }
+    
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login() {
+	return REDIRECT_ON_HOST + "quotation/login.html";
+    }
+    
+    
+    @RequestMapping(value = "/auth", method = RequestMethod.GET)
+    public String authorization(@RequestHeader(value = "Authorization") String authorizationHeader, Principal currentUser) {
+	log.trace(">>>>clientid: User={}, Auth={}, called with productId={}", currentUser.getName(), authorizationHeader);
+	
+	return "redirect:http://192.168.178.26:8585/login";
+    }
+    
+    @RequestMapping(value = "/auth2", method = RequestMethod.GET)
+    public String authorization2(OAuth2Authentication auth, Principal currentUser) {
+	log.trace(">>>clientid: " + auth.getPrincipal().toString());
+	
+	return "redirect:http://192.168.178.26:8080/index";
+    }
+
+    
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ModelAndView indexWithContractor(@PathVariable("id") long contractorid, HttpServletRequest req) {
+	List<OrderEntity> allOrders = orderClient.getAllOrders();
+	req.getSession().setAttribute("contractorid", contractorid);
 	return new ModelAndView("showAllOrders", "orders", allOrders);
     }
 
@@ -124,7 +153,7 @@ public class QuotationController {
 	if (!bindingResult.getAllErrors().isEmpty()) {
 	    return new ModelAndView("submitTender", "quotation", quotation);
 	}
-	quotation.setContractorid(1l);
+	quotation.setContractorid(1L);
 	quotation = quotationRepository.save(quotation);
 
 	return new ModelAndView(REDIRECT_ON_HOST + "quotation/");
