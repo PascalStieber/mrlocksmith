@@ -2,10 +2,10 @@ eureka:
   build: mrlocksmith-server-eureka
   ports:
   - "8761:8761"
-index:
-  build: mrlocksmith-index
-  links:
-  - eureka
+#index:
+#  build: mrlocksmith-index
+#  links:
+#  - eureka
 register:
   build: mrlocksmith-register
   links:
@@ -14,16 +14,10 @@ order:
   build: mrlocksmith-order
   links:
   - eureka
-  - authorization
 quotation:
   build: mrlocksmith-quotation
   links:
   - eureka
-  - authorization
-authorization:
-  build: mrlocksmith-server-authorization
-  ports:
-  - "8585:8585"
 zuul:
   build: mrlocksmith-server-zuul
   links:

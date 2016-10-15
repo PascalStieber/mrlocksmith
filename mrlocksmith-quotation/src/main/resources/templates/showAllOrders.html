@@ -63,12 +63,12 @@
 
 								<td><form th:action="formQuotation.html" th:object="${order}" th:method="post" role="form">
 										<input type="hidden" th:value="${order.id}" name="orderid" />
-										<button class="btn btn-primary btn-xs" name="action" th:value="submitTender" th:if="${not @quotationService.allreadyTendered(__${order.id}__,1)}">Angebot abgeben</button>
-										<button class="btn btn-info btn-xs" name="action" th:value="editTender" th:if="${@quotationService.tenderCancelOrEditable(1,1)}">Angebot bearbeiten</button>
-										<button class="btn btn-danger btn-xs" name="action" th:value="cancelTender" th:if="${@quotationService.tenderCancelOrEditable(1,1)}">Angebot stornieren</button>
-										<img th:if="${@quotationService.isTenderAccepted(1,1)}" src="img/icons/agreement.png" />
+										<input type="hidden" th:value="${session.contractorid}" name="contractorid" />
+										<button class="btn btn-primary btn-xs" name="action" th:value="submitTender" th:if="${not @quotationService.allreadyTendered(__${order.id}__,__${session.contractorid}__)}">Angebot abgeben</button>
+										<button class="btn btn-info btn-xs" name="action" th:value="editTender" th:if="${@quotationService.tenderCancelOrEditable(__${order.id}__,__${session.contractorid}__)}">Angebot bearbeiten</button>
+										<button class="btn btn-danger btn-xs" name="action" th:value="cancelTender" th:if="${@quotationService.tenderCancelOrEditable(__${order.id}__,__${session.contractorid}__)}">Angebot stornieren</button>
+										<img th:if="${@quotationService.isTenderAccepted(__${order.id}__,__${session.contractorid}__)}" src="img/icons/agreement.png" />
 									</form></td>
-
 							</tr>
 						</tbody>
 					</table>

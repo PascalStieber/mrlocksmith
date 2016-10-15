@@ -41,7 +41,7 @@
 					</div>
 					<input type="hidden" th:field="${quotation.id}" name="quotationid" />
 					<input type="hidden" th:field="${quotation.orderid}" name="orderid" />
-					<input type="hidden" th:field="${quotation.contractorid}" name="contractorid" />
+					<input type="hidden" th:value="${session.contractorid}" name="contractorid" />
 					<button class="btn btn-success btn-xs" th:value="addItem" name="action">+</button>
 					<button class="btn btn-warning btn-xs" th:value="saveTender" name="action">Angebot speichern</button>
 				</div>
