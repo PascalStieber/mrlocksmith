@@ -18,7 +18,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
@@ -27,39 +30,52 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableDiscoveryClient
 public class QuotationApp extends WebSecurityConfigurerAdapter {
 
-    private final Logger log = LoggerFactory.getLogger(QuotationApp.class);
+	private final Logger log = LoggerFactory.getLogger(QuotationApp.class);
 
-  
-    public static void main(String[] args) {
-	SpringApplication.run(QuotationApp.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(QuotationApp.class, args);
+	}
 
-   
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+
+		AuthenticationEntryPoint aep = new AuthenticationEntryPoint() {
+
+			@Override
+			public void commence(HttpServletRequest request, HttpServletResponse response,
+					org.springframework.security.core.AuthenticationException authException)
+					throws IOException, ServletException {
+//				response.encodeRedirectURL("http://192.168.99.100:8080/quotation/login");
+				response.sendRedirect("http://192.168.99.100:8080/quotation/login");
+				
+			}
+		};
+
+		http.antMatcher("/**").authorizeRequests().antMatchers("/login","/quotation", "/j_security_check", "/quotation/login", "/", "/auth", "/quotation/auth","/img/**").permitAll().anyRequest().authenticated().and()
+				.formLogin().permitAll()
+				.and().sessionManagement().enableSessionUrlRewriting(false)
+				.and().formLogin().defaultSuccessUrl("http://192.168.99.100:8080/quotation/auth?jsessionid")
+				.and().exceptionHandling().authenticationEntryPoint(aep)
+				.and().csrf().disable()
+//				.csrfTokenRepository(csrfTokenRepository())
+				;
+	}
+
+//	private CsrfTokenRepository csrfTokenRepository() 
+//	{ 
+//	    HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository(); 
+//	    repository.setSessionAttributeName("_csrf");
+//	    return repository; 
+//	}
 	
-    	AuthenticationEntryPoint aep = new AuthenticationEntryPoint() {
-	    
-	    @Override
-	    public void commence(HttpServletRequest request, HttpServletResponse response,
-		    org.springframework.security.core.AuthenticationException authException) throws IOException, ServletException {
-		response.sendRedirect("http://192.168.99.100:8080/quotation/login");
-	    }
-	};
-	
-	http.antMatcher("/**").authorizeRequests().antMatchers( "/login").permitAll().anyRequest().authenticated().
-	and().formLogin().loginPage("/login").permitAll().
-	and().exceptionHandling().authenticationEntryPoint(aep).
-	and().csrf().disable();
-    }
-    
-    @Autowired
-    DataSource dataSource;
+	@Autowired
+	DataSource dataSource;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-	auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery("SELECT email,password,enabled from user where email=?")
-		.authoritiesByUsernameQuery("select email,role from user where email=?");
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.jdbcAuthentication().dataSource(dataSource)
+				.usersByUsernameQuery("SELECT email,password,enabled from user where email=?")
+				.authoritiesByUsernameQuery("select email,role from user where email=?");
 
-    }
+	}
 }

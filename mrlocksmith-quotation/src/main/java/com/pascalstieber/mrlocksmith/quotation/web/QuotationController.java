@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +27,6 @@ import com.pascalstieber.mrlocksmith.quotation.data.ItemRepository;
 import com.pascalstieber.mrlocksmith.quotation.data.OrderEntity;
 import com.pascalstieber.mrlocksmith.quotation.data.Quotation;
 import com.pascalstieber.mrlocksmith.quotation.data.QuotationRepository;
-import com.pascalstieber.mrlocksmith.quotation.data.User;
 import com.pascalstieber.mrlocksmith.quotation.logic.QuotationService;
 
 @Controller
@@ -55,21 +55,22 @@ public class QuotationController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView index() {
+		String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
 		List<OrderEntity> allOrders = orderClient.getAllOrders();
 		return new ModelAndView("showAllOrders", "orders", allOrders);
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login")
 	public ModelAndView login() {
 		return new ModelAndView("login");
 	}
-
+	
+	
 	@RequestMapping(value = "/auth", method = RequestMethod.GET)
-	public String authorization() {
-		User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		log.trace(">>>Logged in User: " + loggedInUser.getUserid() + " with id: " + loggedInUser.getId());
-
-		return "redirect:http://192.168.99.100:8080/quotation/";
+	public ModelAndView authorization() {
+		String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+		log.trace(">>>Logged in User: " + loggedInUser + " with authorities: " + loggedInUser);
+		return new ModelAndView("showAllOrders");
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -118,7 +119,9 @@ public class QuotationController {
 	@RequestMapping(value = "/formQuotation.html", method = RequestMethod.POST, params = "action=editTender")
 	public ModelAndView editTender(HttpServletRequest httpServletRequest) {
 		long orderid = Long.parseLong(httpServletRequest.getParameter("orderid"));
-		Quotation quotation = quotationRepository.findByOrderidAndContractorid(orderid, 1l).get(0);
+		User loggedInUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		com.pascalstieber.mrlocksmith.quotation.data.User user = registerClient.getUserByEmail(loggedInUser.getUsername());
+		Quotation quotation = quotationRepository.findByOrderidAndContractorid(orderid, user.getUserid()).get(0);
 		return new ModelAndView("submitTender", "quotation", quotation);
 	}
 
@@ -146,7 +149,9 @@ public class QuotationController {
 		if (!bindingResult.getAllErrors().isEmpty()) {
 			return new ModelAndView("submitTender", "quotation", quotation);
 		}
-		quotation.setContractorid(1L);
+		User loggedInUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		com.pascalstieber.mrlocksmith.quotation.data.User user = registerClient.getUserByEmail(loggedInUser.getUsername());
+		quotation.setContractorid(user.getUserid());
 		quotation = quotationRepository.save(quotation);
 
 		return new ModelAndView(REDIRECT_ON_HOST + "quotation/");
@@ -155,7 +160,9 @@ public class QuotationController {
 	@RequestMapping(value = "/formQuotation.html", method = RequestMethod.POST, params = "action=cancelTender")
 	public ModelAndView cancelTender(HttpServletRequest httpServletRequest) {
 		long orderid = Long.parseLong(httpServletRequest.getParameter("orderid"));
-		List<Quotation> quotation = quotationRepository.findByOrderidAndContractorid(orderid, 1l);
+		User loggedInUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		com.pascalstieber.mrlocksmith.quotation.data.User user = registerClient.getUserByEmail(loggedInUser.getUsername());
+		List<Quotation> quotation = quotationRepository.findByOrderidAndContractorid(orderid, user.getUserid());
 		quotationRepository.delete(quotation.get(0));
 		return new ModelAndView(REDIRECT_ON_HOST + "quotation/");
 	}

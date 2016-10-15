@@ -2,18 +2,18 @@ eureka:
   build: mrlocksmith-server-eureka
   ports:
   - "8761:8761"
-index:
-  build: mrlocksmith-index
-  links:
-  - eureka
-register:
-  build: mrlocksmith-register
-  links:
-  - eureka
-order:
-  build: mrlocksmith-order
-  links:
-  - eureka
+#index:
+#  build: mrlocksmith-index
+#  links:
+#  - eureka
+#register:
+#  build: mrlocksmith-register
+#  links:
+#  - eureka
+#order:
+#  build: mrlocksmith-order
+#  links:
+#  - eureka
 quotation:
   build: mrlocksmith-quotation
   links:

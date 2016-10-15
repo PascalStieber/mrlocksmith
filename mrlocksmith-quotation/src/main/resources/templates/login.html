@@ -20,14 +20,15 @@
 						Bitte melden Sie sich an.
 					</h2>
 
-					<form name="f" th:action="@{/login}" method="post">
+					<form name="f" method="post" action="j_security_check">
+<!-- 					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
 						<div th:if="${param.error}" class="alert alert-error">
 							Benutzer unbekannt oder Password nicht korrekt.					
 						</div>
-						<label for="username">Username</label>
-						<input type="text" id="username" name="username" />
-						<label for="password">Username</label>
-						<input type="text" id="password" name="password" />
+						<label for="username">Benutzername</label>
+						<input type="text" id="username" name="j_username" /><br/>
+						<label for="password">Password</label>
+						<input type="password" id="password" name="j_password" />
 						<div>
 							<button type="submit" class="btn">Log in</button>
 						</div>

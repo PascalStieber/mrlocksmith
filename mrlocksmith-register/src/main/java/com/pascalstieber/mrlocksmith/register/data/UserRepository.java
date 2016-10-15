@@ -19,5 +19,7 @@ public interface UserRepository extends
 	
 	@Query("SELECT u.adresses FROM User u WHERE u.id = :id AND u.orderid= :orderid")
 	public Adress getOneUserAdressesByUseridAndOrderid(@Param("id") long id, @Param("orderid") long orderid);
+	
+	User findByEmail(@Param("email") String email);
 
 }

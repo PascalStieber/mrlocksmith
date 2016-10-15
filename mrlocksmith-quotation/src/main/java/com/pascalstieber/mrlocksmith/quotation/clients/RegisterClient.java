@@ -61,14 +61,25 @@ public class RegisterClient {
     }
 
     public User getUser(long userid) {
-	try {
-	    User user = restTemplate.getForObject(getRegisterURL() + "findUserById/" + userid, User.class);
+		try {
+		    User user = restTemplate.getForObject(getRegisterURL() + "findUserById/" + userid, User.class);
 	    log.trace(">>>findUserById/" + userid);
 	    return user;
 	} catch (RestClientException e) {
 	    log.error(e.toString());
 	}
 	return null;
+    }
+
+    public User getUserByEmail(String userEmail) {
+    	try {
+    		User user = restTemplate.getForObject(getRegisterURL() + "findUserByEmail/" + userEmail, User.class);
+    		log.trace(">>>findUserByEmail/" + userEmail);
+    		return user;
+    	} catch (RestClientException e) {
+    		log.error(e.toString());
+    	}
+    	return null;
     }
 
     public List<Adress> getAdresses(long userid) {
@@ -80,6 +91,9 @@ public class RegisterClient {
 	}
 	return null;
     }
+    
+
+    
     
     public Adress getAdressById(long adressid) {
 	try {
@@ -101,4 +115,5 @@ public class RegisterClient {
 	converter.setObjectMapper(mapper);
 	return new RestTemplate(Collections.<HttpMessageConverter<?>> singletonList(converter));
     }
+
 }

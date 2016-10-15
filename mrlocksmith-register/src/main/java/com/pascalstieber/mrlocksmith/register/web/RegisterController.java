@@ -49,6 +49,12 @@ public class RegisterController {
 	User user = userRepository.findById(id);
 	return user;
     }
+    
+    @RequestMapping(value = "/findUserByEmail/{email}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody User findUserByEmail(@PathVariable("email") String email) {
+	User user = userRepository.findByEmail(email);
+	return user;
+    }
 
     @RequestMapping(value = "/findAdressesByUserid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Adress> getUser(@PathVariable("id") long id) {
